@@ -1,5 +1,5 @@
 from flask import jsonify, request, session, Blueprint
-from .modelo.repositorio_inspector import obtener_incidencias, obtener_incidencia_id, registrar_incidencia, actualizar_incidencia  
+from .modelo.repositorio_inspector import obtener_incidencias_db, obtener_incidencia_id_db, registrar_incidencia_db, actualizar_incidencia_db  
 from __main__ import app
 import os
 from datetime import datetime
@@ -22,16 +22,16 @@ def inicio_servicios_rest():
 
 #metodo para obtener todas las incidencias
 @app.route(ruta_servicios_rest + "/obtener_incidencias")
-def obtener_incidencias():
-    incidencias = obtener_incidencias()
+def obtener_incidencias_db():
+    incidencias = obtener_incidencias_db()
     print(incidencias)
     return jsonify(incidencias)
 
 #metodo para obtener una incidencia por id 
 @app.route(ruta_servicios_rest + "/obtener_incidencia_id", methods=["GET"])
-def obtener_incidencia_id():
+def obtener_incidencia_id_db():
     id = request.args.get("id")
-    incidencia = obtener_incidencia_id(id)
+    incidencia = obtener_incidencia_id_db(id)
     return jsonify(incidencia)
 
 
@@ -44,7 +44,7 @@ def obtener_incidencia_id():
 
 #metodo para registrar una incidencia
 @app.route(ruta_servicios_rest + "/registrar_incidencia", methods=["POST"])
-def registrar_incidencia():
+def registrar_incidencia_db():
     
         print("Headers:", request.headers)
         print("Raw Data:", request.data)  # Muestra los datos sin procesar
@@ -62,13 +62,13 @@ def registrar_incidencia():
         
         print(f"----REGISTRAR INCIDENCIA----- elemento: {elemento}, instalacion: {instalacion}, ubicacion: {ubicacion}, tipo: {tipo}, estado: {estado}, fecha: {fecha}, observaciones: {observaciones}")
         
-        registrar_incidencia(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones)
+        registrar_incidencia_db(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones)
         
         return jsonify("ok")
     
     
 @app.route(ruta_servicios_rest + "/actualizar_incidencia", methods = ["POST"])
-def actualizar_incidencia():
+def actualizar_incidencia_db():
     print("Headers:", request.headers)
     data = request.get_json
     print("JSON data: ", data)
@@ -86,7 +86,7 @@ def actualizar_incidencia():
     
     print(f"----REGISTRO ACTUALIZADO----- ID, {id} elemento: {elemento}, instalacion: {instalacion}, ubicacion: {ubicacion}, tipo: {tipo}, estado: {estado}, fecha: {fecha}, observaciones: {observaciones}")
     
-    actualizar_incidencia(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones, id)
+    actualizar_incidencia_db(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones, id)
     
     return jsonify("ok")
     
