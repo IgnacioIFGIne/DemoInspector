@@ -1,0 +1,22 @@
+
+<div class="incidencia" *ngFor="let incidencia of incidencias">
+    <div class="incident-content">
+        <h3>{{incidencia.elemento}}</h3>
+        <p class="address">{{incidencia.ubicacion}}</p>
+        <p class="description">{{incidencia.observaciones}}</p>
+        
+        <!--ver detalles de la incidencia -->
+        <button class="btn-details" (click)="verDetalles(incidencia)">VER DETALLES</button>   
+        
+    </div>
+    <div class="incident-status">
+        <span class="status-badge en-progreso">{{incidencia.estado}}</span>
+      <p class="time">Hace 5h</p>   
+    </div>
+</div> 
+
+
+
+
+
+

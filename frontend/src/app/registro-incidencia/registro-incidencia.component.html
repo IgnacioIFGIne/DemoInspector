@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Instalación</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+  <div class="container">
+    <form class="installation-form">
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Instalación</h2>
+        </div>
+        <div class="section-content">
+          <div class="installation-id">
+            <span class="hash-symbol">#</span>
+            <input type="text" class="form-input" name="instalacion" placeholder="Código / Cliente / Empresa" [(ngModel)]="incidencia.instalacion">
+          </div>
+          <div class="installation-address">
+            <span class="material-icons location-icon">location_on</span>
+            <input type="text" class="form-input" name="instalacion"  placeholder="Dirección de la instalación" [(ngModel)]="incidencia.ubicacion">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Elemento</h2>
+        </div>
+        <div class="section-content">
+          <div class="element-type">
+            <span class="material-icons element-icon">build</span>
+            <input type="text" class="form-input" name="elemento" placeholder="Tipo de elemento" [(ngModel)]="incidencia.elemento">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Tipo</h2>
+        </div>
+        <div class="section-content">
+          <div class="select-wrapper">
+            <select class="form-select" name="tipo" [(ngModel)]="incidencia.tipo">
+              <option value="" disabled>Seleccionar tipo</option>
+              <option value="tipo1">Tipo 1</option>
+              <option value="tipo2">Tipo 2</option>
+              <option value="tipo3">Tipo 3</option>
+            </select>
+            <span class="material-icons select-arrow">keyboard_arrow_down</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Estado</h2>
+        </div>
+        <div class="section-content">
+          <div class="select-wrapper">
+            <select class="form-select" name="estado" [(ngModel)]="incidencia.estado">
+              <option value="" disabled>Seleccionar estado</option>
+              <option value="Bueno">Bueno</option>
+              <option value="Regular">Regular</option>
+              <option value="Malo">Malo</option>
+            </select>
+            <span class="material-icons select-arrow">keyboard_arrow_down</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Fotos</h2>
+        </div>
+        <div class="section-content">
+          <div class="photo-upload">
+            <div class="upload-area">
+              <span class="material-icons camera-icon">photo_camera</span>
+              <p class="upload-text">Toca para añadir una foto</p>
+              <!-- <input type="file" class="file-input" accept="image/*" (change)="onFileChange($event)"> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Observaciones</h2>
+        </div>
+        <div class="section-content">
+          <textarea class="form-textarea" name="observaciones" placeholder="Añade detalles adicionales..." [(ngModel)]="incidencia.observaciones"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="submit-button" (click)="registrarIncidencia()">Guardar registro</button>
+        <button type="button" class="close-button" (click)="close()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
