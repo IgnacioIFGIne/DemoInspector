@@ -1,8 +1,8 @@
-import modelo.conexion
+from .conexion import conexion
 
 #-------------------METODOS GET-------------------
 def obtener_incidencias_db():
-    conexion = modelo.conexion.conectar()
+    conexion = conexion.conectar()
     sql = "SELECT * FROM incidencias"
     cursor = conexion.cursor(dictionary=True)
     cursor.execute(sql)
@@ -18,7 +18,7 @@ def obtener_incidencias_db():
     return incidencias
     
 def obtener_incidencia_id_db(id):
-    conexion = modelo.conexion.conectar()
+    conexion = conexion.conectar()
     sql = "SELECT * FROM incidencias WHERE id = %s"
     cursor = conexion.cursor(dictionary=True)
     cursor.execute(sql, (id,))
@@ -35,7 +35,7 @@ def obtener_incidencia_id_db(id):
 
 
 def registrar_incidencia_db(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones):
-    conexion = modelo.conexion.conectar()
+    conexion = conexion.conectar()
     sql = "INSERT INTO incidencias (elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     values = (elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones)
     cursor = conexion.cursor()
@@ -46,7 +46,7 @@ def registrar_incidencia_db(elemento, instalacion, ubicacion, tipo, estado, fech
     
 def actualizar_incidencia_db(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones, id):
     
-    conexion = modelo.conexion.conectar()
+    conexion = conexion.conectar()
     sql = "UPDATE incidencias SET elemento = %s, instalacion = %s, ubicacion = %s, tipo = %s, estado = %s, fecha = %s, observaciones = %s WHERE incidencias.id = %s"
     values = ( elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones, id)
     cursor = conexion.cursor()
