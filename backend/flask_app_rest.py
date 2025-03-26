@@ -1,5 +1,5 @@
 from flask import jsonify, request, session, Blueprint
-import modelo.repositorio_inspector
+from .modelo.repositorio_inspector import obtener_incidencias, obtener_incidencia_id, registrar_incidencia, actualizar_incidencia  
 from __main__ import app
 import os
 from datetime import datetime
@@ -23,7 +23,7 @@ def inicio_servicios_rest():
 #metodo para obtener todas las incidencias
 @app.route(ruta_servicios_rest + "/obtener_incidencias")
 def obtener_incidencias():
-    incidencias = modelo.repositorio_inspector.obtener_incidencias()
+    incidencias = obtener_incidencias()
     print(incidencias)
     return jsonify(incidencias)
 
@@ -31,7 +31,7 @@ def obtener_incidencias():
 @app.route(ruta_servicios_rest + "/obtener_incidencia_id", methods=["GET"])
 def obtener_incidencia_id():
     id = request.args.get("id")
-    incidencia = modelo.repositorio_inspector.obtener_incidencia_id(id)
+    incidencia = obtener_incidencia_id(id)
     return jsonify(incidencia)
 
 
@@ -62,7 +62,7 @@ def registrar_incidencia():
         
         print(f"----REGISTRAR INCIDENCIA----- elemento: {elemento}, instalacion: {instalacion}, ubicacion: {ubicacion}, tipo: {tipo}, estado: {estado}, fecha: {fecha}, observaciones: {observaciones}")
         
-        modelo.repositorio_inspector.registrar_incidencia(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones)
+        registrar_incidencia(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones)
         
         return jsonify("ok")
     
@@ -86,7 +86,7 @@ def actualizar_incidencia():
     
     print(f"----REGISTRO ACTUALIZADO----- ID, {id} elemento: {elemento}, instalacion: {instalacion}, ubicacion: {ubicacion}, tipo: {tipo}, estado: {estado}, fecha: {fecha}, observaciones: {observaciones}")
     
-    modelo.repositorio_inspector.actualizar_incidencia(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones, id)
+    actualizar_incidencia(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones, id)
     
     return jsonify("ok")
     
