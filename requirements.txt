@@ -1,6 +1,22 @@
-Flask==2.2.3
-gunicorn==20.1.0
-Flask-Cors==5.0.1
-Flask-Session==0.4.0
-mysql-connector-python==8.0.28
-werkzeug==2.2.2
+blinker==1.9.0
+cachelib==0.13.0
+cffi==1.17.1
+click==8.1.8
+colorama==0.4.6
+cryptography==44.0.2
+Flask==2.2.3  # Usa una versión estable
+flask-core==2.9.0
+flask-cors==5.0.1
+Flask-Session==0.4.0  # Asegúrate de que esta versión sea compatible con Flask 2.x
+greenlet==1.1.2  # Revisa la versión de greenlet compatible con Flask
+itsdangerous==2.2.0
+Jinja2==3.1.6
+MarkupSafe==3.0.2
+msgspec==0.19.0
+mysql-connector-python==8.0.28  # Revisa si esta es la versión adecuada para tu proyecto
+psycopg2==2.9.10
+psycopg2-binary==2.9.10
+pycparser==2.22
+SQLAlchemy==2.0.39  # Revisa la versión de SQLAlchemy que sea compatible con Flask
+typing_extensions==4.12.2
+Werkzeug==2.2.2  # Revisa la compatibilidad con Flask 2.x
