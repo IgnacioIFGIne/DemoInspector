@@ -1,5 +1,5 @@
 from flask import jsonify, request, Blueprint
-from modelo.repositorio_inspector import obtener_incidencias_db, obtener_incidencia_id_db, registrar_incidencia_db, actualizar_incidencia_db  
+from backend.modelo.repositorio_inspector import obtener_incidencias_db, obtener_incidencia_id_db, registrar_incidencia_db, actualizar_incidencia_db  
 
 app = Blueprint('rest_app', __name__)
 
