@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_session import Session
-from flask_app_rest import app as rest_app  # Importación correcta
+from backend.flask_app_rest import app as rest_app  # Importación correcta
 
 app = Flask(__name__)
 
