@@ -11,7 +11,7 @@ import { MapComponent } from '../map/map.component';
   selector: 'app-detalles-incidencia',
   imports: [NgFor, NgIf, MapComponent],
   templateUrl: './detalles-incidencia.component.html',
-  styleUrl: './detalles-incidencia.component.css'
+  styleUrls: ['./detalles-incidencia.component.css']
 })
 export class DetallesIncidenciaComponent {
 
@@ -33,7 +33,7 @@ export class DetallesIncidenciaComponent {
       disableClose: true
     });
   
-    dialogRef.afterClosed().subscribe(result => { 
+    dialogRef.afterClosed().subscribe((result: any) => { 
       if (result) { //result si se ha confirmado la edicion
         this.router.navigate(['/listado']); 
       }

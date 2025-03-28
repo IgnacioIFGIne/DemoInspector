@@ -11,7 +11,7 @@ export class InspectorService {
 
     constructor(private http: HttpClient) {}
     
-    //obtiene las incidencias en formato observable del back
+    //obtiene las incidencias en formato observable del back    
     getIncidencias(): Observable<Incidencia[]> {
         return this.http.get<Incidencia[]>(this.ruta_rest_services + 'rest/obtener_incidencias');
     }
