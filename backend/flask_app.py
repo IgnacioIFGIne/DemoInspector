@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_session import Session
 from flask_app_rest import app as rest_app  
 import os
