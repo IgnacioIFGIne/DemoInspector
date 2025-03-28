@@ -1,4 +1,4 @@
-from backend.modelo.conexion import conectar
+from conexion import conectar
 
 #-------------------METODOS GET-------------------
 def obtener_incidencias_db():
