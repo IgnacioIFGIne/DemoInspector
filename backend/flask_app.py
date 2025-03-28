@@ -1,7 +1,12 @@
 from flask import Flask
 from flask_session import Session
-from backend.flask_app_rest import app as rest_app  
+from flask_app_rest import app as rest_app  
 import os
+
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'backend'))
+
 
 app = Flask(__name__, static_folder="../frontend/dist/fronted/browser/browser")
 
