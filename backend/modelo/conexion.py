@@ -1,15 +1,23 @@
-import mysql.connector
+import psycopg2
+import os
 
 def conectar():
-    conexion = mysql.connector.connect(
-        host = "localhost",
-        user = "root",
-        passwd = "",
-        database = "ineco_inspector_db"
-    )
+    # Obtener las credenciales de las variables de entorno configuradas en Render
+    host = os.environ.get('DB_HOST')  # El host de la base de datos de Render
+    user = os.environ.get('DB_USER')  # El usuario de la base de datos de Render
+    password = os.environ.get('DB_PASSWORD')  # La contraseña de la base de datos de Render
+    dbname = os.environ.get('DB_NAME')  # El nombre de la base de datos de Render
 
-    if conexion:
-        print("conexion con la base de datos OK")
+    try:
+        # Conexión a PostgreSQL usando psycopg2
+        conexion = psycopg2.connect(
+            host=host,
+            user=user,
+            password=password,
+            dbname=dbname
+        )
+        print("Conexión con la base de datos PostgreSQL OK")
         return conexion
-    else:
-        print("error al conectar con la db, comprueba los datos de la conexion")
+    except Exception as e:
+        print(f"Error al conectar con la base de datos: {e}")
+        return None
