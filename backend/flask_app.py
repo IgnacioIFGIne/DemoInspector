@@ -22,7 +22,8 @@ app.register_blueprint(rest_app)
 # Ruta principal para servir el archivo index.html
 @app.route('/')
 def index():
-    return send_from_directory(os.path.join(app.static_folder, 'index.html'))
+    return send_from_directory(os.path.join(app.root_path, 'frontend/dist/fronted/browser/browser'), 'index.html')
+
 
 # Ruta para servir los archivos estáticos de Angular
 @app.route('/<path:path>')
