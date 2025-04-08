@@ -14,3 +14,131 @@
   <app-root></app-root>
 </body>
 </html>
+
+
+<!-- <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>INECO INSPECTOR</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f6f8;
+    }
+
+    #fake-login {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #f4f6f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-box img {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+
+    .login-box h2 {
+      font-weight: 500;
+      margin: 10px 0;
+    }
+
+    .login-box p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #163978;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .login-box button:hover {
+      background-color: #0f2c5b;
+    }
+
+    .error-msg {
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
+      display: none;
+    }
+
+    app-root {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div id="fake-login">
+  <div class="login-box">
+    <img src="../assets/images/Logo_blanco.jpg" alt="Ineco Logo">
+    <h2>INECO INSPECTOR</h2>
+    <p>Toma de datos en tiempo real</p>
+
+    <input type="text" id="username" placeholder="nombre@ineco.com">
+    <input type="password" id="password" placeholder="Contraseña">
+    
+    <button onclick="fakeLogin()">Iniciar Sesión</button>
+    <div class="error-msg" id="error">Usuario o contraseña incorrectos</div>
+  </div>
+</div>
+
+<app-root></app-root>
+
+<script>
+  function fakeLogin() {
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value;
+
+    if (user === 'admin' && pass === 'admin123') {
+      document.getElementById('fake-login').style.display = 'none';
+      document.querySelector('app-root').style.display = 'block';
+    } else {
+      document.getElementById('error').style.display = 'block';
+    }
+  }
+</script>
+
+</body>
+</html>  -->

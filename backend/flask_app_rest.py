@@ -184,37 +184,6 @@ def importar_incidencia():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
    
-   
-# Endpoint para importar y actualizar todas las incidencias desde un CSV
-@app.route(ruta_servicios_rest + "/exportar_incidencias", methods=["GET"])
-def exportar_incidencias():
-    # Paso 1: Obtener todas las incidencias de la base de datos
-    incidencias = modelo.repositorio_inspector.obtener_incidencias()
-   
-    # Paso 2: Crear el CSV en memoria usando io.StringIO y csv.writer con delimitador ';'
-    output = io.StringIO()
-    writer = csv.writer(output, delimiter=';')
-   
-    # Si existen incidencias, escribimos la cabecera y los datos
-    if incidencias:
-        header = list(incidencias[0].keys())
-        writer.writerow(header)
-        for incidencia in incidencias:
-            writer.writerow([incidencia[h] for h in header])
-    else:
-        writer.writerow(["No hay incidencias disponibles"])
-   
-    contenido_csv = output.getvalue()
-    output.close()
-   
-    # Paso 3: Retornar el CSV para descarga
-    return Response(
-        contenido_csv,
-        mimetype="text/csv",
-        headers={
-            "Content-disposition": "attachment; filename=incidencias.csv"
-        }
-    )
 
 
 @app.route(ruta_servicios_rest + "/importar_incidencias", methods=["POST"])
@@ -341,14 +310,7 @@ def exportar_incidencia():
         }
     )
      
-    
-    
 
-    
-    
-    
-    
-    
 
     
     
