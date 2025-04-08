@@ -3,13 +3,9 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Incidencia } from '../model/incidencia';
 import { InspectorService } from '../services/inspector.service';
-<<<<<<< HEAD
 import { FormsModule, NgModel } from '@angular/forms';
 import Swal from "sweetalert2" // Import SweetAlert2
 
-=======
-import { FormsModule } from '@angular/forms';
->>>>>>> 01d550afaf77d7133c0253c56db755b1e850bf1f
 
 @Component({
   selector: 'app-registro-incidencia',
@@ -23,47 +19,13 @@ export class RegistroIncidenciaComponent {
   incidencia: Incidencia = new Incidencia(); // Instancia de incidencia sin pasar por el constructor
   selectedFile: File | null = null; // Variable para almacenar la foto seleccionada
 
-  constructor(
-    public dialogRef: MatDialogRef<RegistroIncidenciaComponent>, 
-    private inspectorService: InspectorService
-  ) {}
 
-<<<<<<< HEAD
   constructor(public dialogRef: MatDialogRef<RegistroIncidenciaComponent>, private inspectorService: InspectorService) {}
-
-  registrarIncidencia(): void {
-
-    console.log('Datos de la incidencia:', this.incidencia.elemento);
-
-    this.inspectorService.registrarIncidencia(this.incidencia).subscribe(
-      res => (res =="ok")?this.inciOk():this.showErrorAlert())
-  }
-
-  inciOk():void{
-    Swal.fire({
-      title: "¡Éxito!",
-      text: "Incidencia actualizada correctamente",
-      icon: "success",
-      confirmButtonText: "Aceptar",
-      confirmButtonColor: "#1a4b8c",
-    }).then(() => {
-      this.dialogRef.close(true)
-    })
-  }
-
-  showErrorAlert(): void {
-    Swal.fire({
-      title: "Error",
-      text: "Error al actualizar la incidencia",
-      icon: "error",
-      confirmButtonText: "Aceptar",
-      confirmButtonColor: "#8c1a20",
-    })
-=======
   ngOnInit(): void {
     console.log("ngOnInit ejecutado"); // Verifica que se ejecuta
     this.obtenerUbicacion();
   }
+
 
   obtenerUbicacion() {
     if (!navigator.geolocation) {
@@ -131,46 +93,60 @@ export class RegistroIncidenciaComponent {
       }
     );
   }
+
+
+    
+    uploadImage(): void {
+      if (this.selectedFile) {
+        const formData = new FormData();
+        const incidenciaId = this.incidencia.id; 
   
-
-  uploadImage(): void {
-    if (this.selectedFile) {
-      const formData = new FormData();
-      const incidenciaId = this.incidencia.id; 
-
-      
-      const fileName = `${incidenciaId}.jpg`;
-      formData.append('foto', this.selectedFile, fileName); 
-
-      // Enviar la foto al backend
-      this.inspectorService.subirFoto(formData).subscribe(
-        res => console.log('Foto subida correctamente', res),
-        error => console.error('Error al subir foto', error)
-      );
+        
+        const fileName = `${incidenciaId}.jpg`;
+        formData.append('foto', this.selectedFile, fileName); 
+  
+        // Enviar la foto al backend
+        this.inspectorService.subirFoto(formData).subscribe(
+          res => console.log('Foto subida correctamente', res),
+          error => console.error('Error al subir foto', error)
+        );
+      }
     }
-  }
-
+  
   onFileSelected(event: any): void {
     const file = event.target.files[0]; // Obtiene el primer archivo seleccionado
     if (file) {
       this.selectedFile = file;  // Almacena el archivo en la variable selectedFile
     }
   }
-
-  inciOk(): void {
-    alert("Incidencia registrada con éxito");
-    // Puedes recargar la vista o realizar otras acciones si es necesario
-    this.dialogRef.close();
->>>>>>> 01d550afaf77d7133c0253c56db755b1e850bf1f
+  
+  inciOk():void{
+    Swal.fire({
+      title: "¡Éxito!",
+      text: "Incidencia actualizada correctamente",
+      icon: "success",
+      confirmButtonText: "Aceptar",
+      confirmButtonColor: "#1a4b8c",
+    }).then(() => {
+      this.dialogRef.close(true)
+    })
   }
 
+  showErrorAlert(): void {
+    Swal.fire({
+      title: "Error",
+      text: "Error al actualizar la incidencia",
+      icon: "error",
+      confirmButtonText: "Aceptar",
+      confirmButtonColor: "#8c1a20",
+    })
+  }
+  
   close(): void {
     this.dialogRef.close();
   }
-<<<<<<< HEAD
+  
+  
+}
 
 
-}
-=======
-}
->>>>>>> 01d550afaf77d7133c0253c56db755b1e850bf1f

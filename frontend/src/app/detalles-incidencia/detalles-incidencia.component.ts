@@ -44,7 +44,6 @@ export class DetallesIncidenciaComponent {
     });
 
   }
-<<<<<<< HEAD
   
   importarIncidencia() {
   const dialogRef = this.dialog.open(ImportarIncidenciaComponent, {
@@ -129,15 +128,6 @@ export class DetallesIncidenciaComponent {
     )
   }
   
-=======
-
-  exportarIncidencia(incidencia: Incidencia) {
-    alert:("TODO: exportar incidencia");
-    
-
-
-  }
->>>>>>> 01d550afaf77d7133c0253c56db755b1e850bf1f
 
 }
  

@@ -39,7 +39,6 @@ export class InspectorService {
         return this.http.post<string>(this.ruta_rest_services + 'rest/actualizar_incidencia', incidencia);
     }
 
-<<<<<<< HEAD
     // Método para exportar una incidencia
     exportarIncidencia(id: number): Observable<Blob> {
       return this.http.get(this.ruta_rest_services + "rest/exportar_incidencia?id=" + id, {
@@ -69,7 +68,6 @@ export class InspectorService {
 
     return this.http.post(this.ruta_rest_services + "rest/importar_incidencias", formData)
   }
-=======
 
 
     //fotos
@@ -78,6 +76,5 @@ export class InspectorService {
     }
     
 
->>>>>>> 01d550afaf77d7133c0253c56db755b1e850bf1f
 
 }

@@ -31,11 +31,8 @@ def obtener_incidencia_id(id):
 
 
 #-------------------METODOS POST-------------------
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 01d550afaf77d7133c0253c56db755b1e850bf1f
 def registrar_incidencia(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones):
     conexion = modelo.conexion.conectar()
     sql = "INSERT INTO incidencias (elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones) VALUES (%s, %s, %s, %s, %s, %s, %s)"
