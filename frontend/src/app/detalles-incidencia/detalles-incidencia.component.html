@@ -4,8 +4,6 @@
   <title>INECO INSPECTOR - Detalle de Incidencia</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-
-
   <div class="container">
     <!-- Header -->
     <header>
@@ -14,8 +12,8 @@
         <h1>INECO INSPECTOR</h1>
       </div>
       <div class="header-right">
-        <button title="Exportar"><i class='bx bx-download'></i></button>
-        <button title="Importar"><i class='bx bx-upload'></i></button>
+        <button (click)="exportarIncidencia(incidencia)" title="Exportar"><i class='bx bx-download'></i></button>
+        <button (click)="importarIncidencia()" title="Importar"><i class='bx bx-upload'></i></button>
         <button title="Imprimir"><i class='bx bx-printer'></i></button>
       </div>
     </header>
@@ -35,12 +33,12 @@
         <div class="details-grid">
           <div class="details-column">
             <div class="detail-item">
+              <div class="detail-item">
+                <h3>Instalación</h3>
+                <p>{{incidencia.instalacion}}</p>
+              </div>
               <h3>Elemento</h3>
               <p>{{incidencia.elemento}}</p>
-            </div>
-            <div class="detail-item">
-              <h3>Instalación</h3>
-              <p>{{incidencia.instalacion}}</p>
             </div>
             <div class="detail-item">
               <h3>Ubicación</h3>

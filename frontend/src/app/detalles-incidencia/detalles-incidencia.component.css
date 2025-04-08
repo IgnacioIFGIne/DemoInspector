@@ -317,6 +317,19 @@ button {
   color: white;
 }
 
+.boton-editar{
+  background-color: #1e40af;
+  border: 1px solid #1e40af;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.boton-editar:hover{
+  background-color: #1e3a8a;
+}
+
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
 }

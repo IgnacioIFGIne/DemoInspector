@@ -1,19 +1,50 @@
-
-<div class="incidencia" *ngFor="let incidencia of incidencias">
-    <div class="incident-content">
-        <h3>{{incidencia.elemento}}</h3>
-        <p class="address">{{incidencia.ubicacion}}</p>
-        <p class="description">{{incidencia.observaciones}}</p>
+  <!-- Botón para alternar el formato -->
+  <button (click)="alternarFormato()" class="btn-toggle" [class.active]="esMosaico">
+    <div class="switch">
+      <div class="circle"></div>
+    </div>
+  </button>
+  
+<div class="incidencias-lista" [ngClass]="{'mosaico': esMosaico}">
+    <div class="incidencia" *ngFor="let incidencia of incidencias">
+      <div class="incident-content">
+        <!-- Imagen visible solo cuando estamos en formato mosaico -->
+        <img *ngIf="esMosaico" src="../../assets/images/Logo_Ineco.png" alt="Imagen de la incidencia" class="incident-image">
         
+        <!-- Datos de la incidencia -->
+        <h3>{{incidencia.instalacion}}</h3>
+        <p class="description"><span class="bold">Elemento:</span> {{incidencia.elemento}}</p>
+        <p class="address"><span class="bold">Ubicación:</span> {{incidencia.ubicacion}}</p>
+        
+        <button class="btn-details" (click)="verDetalles(incidencia)">VER DETALLES</button>
+      </div>
+      <div class="incident-status">
+        <span class="status-badge en-progreso">{{incidencia.estado}}</span>
+        <p class="time">Hace 5h</p>
+      </div>
+    </div>
+  </div>
+ 
+
+  <!-- ----------------------------------------------------------- -->
+  <!-- ----------------MODELO ANTERIOR SIN MOSAICO---------------- -->
+  <!-- ----------------------------------------------------------- -->
+
+<!-- <div class="incidencia" *ngFor="let incidencia of incidencias">
+    <div class="incident-content">
+        <h3>{{incidencia.instalacion}}</h3>
+        <p class="description"><span class="bold">Elemento:</span> {{incidencia.elemento}}</p>
+        <p class="address"><span class="bold">Ubicacion:</span> {{incidencia.ubicacion}}</p>
+         -->
         <!--ver detalles de la incidencia -->
-        <button class="btn-details" (click)="verDetalles(incidencia)">VER DETALLES</button>   
+        <!-- <button class="btn-details" (click)="verDetalles(incidencia)">VER DETALLES</button>   
         
     </div>
     <div class="incident-status">
         <span class="status-badge en-progreso">{{incidencia.estado}}</span>
       <p class="time">Hace 5h</p>   
     </div>
-</div> 
+</div>  -->
 
 
 

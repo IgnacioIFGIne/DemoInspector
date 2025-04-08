@@ -24,7 +24,24 @@
           </div>
         </div>
       </div>
-
+      
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Tipo</h2>
+        </div>
+        <div class="section-content">
+          <div class="select-wrapper">
+            <select class="form-select" name="tipo" [(ngModel)]="incidencia.tipo">
+              <option value="" disabled>Seleccionar tipo</option>
+              <option value="Saneamiento">Saneamiento</option>
+              <option value="Electrico">Electrico</option>
+              <option value="Infraestructura">Infraestructura</option>
+            </select>
+            <span class="material-icons select-arrow">keyboard_arrow_down</span>
+          </div>
+        </div>
+      </div>
+      
       <div class="form-section">
         <div class="section-header">
           <h2>Elemento</h2>
@@ -37,22 +54,6 @@
         </div>
       </div>
 
-      <div class="form-section">
-        <div class="section-header">
-          <h2>Tipo</h2>
-        </div>
-        <div class="section-content">
-          <div class="select-wrapper">
-            <select class="form-select" name="tipo" [(ngModel)]="incidencia.tipo">
-              <option value="" disabled>Seleccionar tipo</option>
-              <option value="tipo1">Tipo 1</option>
-              <option value="tipo2">Tipo 2</option>
-              <option value="tipo3">Tipo 3</option>
-            </select>
-            <span class="material-icons select-arrow">keyboard_arrow_down</span>
-          </div>
-        </div>
-      </div>
 
       <div class="form-section">
         <div class="section-header">

@@ -4,15 +4,24 @@
         <app-map></app-map>
     </div>
 
-    <div class="filters">
-        <button class="filter-btn active">Todos</button>
-        <button class="filter-btn">Arqueta</button>
-        <button class="filter-btn">Averías</button>
-        <button class="filter-btn">En progreso</button>
-    </div>
+    <div class="filters-container">
+        <div class="filters">
+          <button class="filter-btn active">Todos</button>
+          <button class="filter-btn">Arqueta</button>
+          <button class="filter-btn">Averías</button>
+          <button class="filter-btn">En progreso</button>
+        </div>
+        <div class="action-buttons">
+          <button (click)="exportarIncidencias()" title="Exportar"><i class='bx bx-download'></i></button>
+          <button (click)="importarIncidencias()" title="Importar"><i class='bx bx-upload'></i></button>
+        </div>
+      </div>
+
+    <!-- TODO: Barra de buscador -->
 
     <div class="incidents-list">
         <app-listado></app-listado>
     </div>
 
+    
 </main>
