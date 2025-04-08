@@ -13,15 +13,18 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/fronted/browser",
+            "outputPath": "dist/fronted",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/assets/favicon.ico",
-              "src/assets",
+                "src/assets/favicon.ico",
+                "src/assets",
               {
+                
                 "glob": "**/*",
                 "input": "public"
               }
@@ -31,7 +34,12 @@
               "node_modules/leaflet/dist/leaflet.css",
               "src/styles.css"
             ],
-            "scripts": ["node_modules/leaflet/dist/leaflet.js"]
+            "scripts": ["node_modules/leaflet/dist/leaflet.js"],
+            "server": "src/main.server.ts",
+            "outputMode": "server",
+            "ssr": {
+              "entry": "src/server.ts"
+            }
           },
           "configurations": {
             "production": {
@@ -64,37 +72,10 @@
               "buildTarget": "fronted:build:production"
             },
             "development": {
-              "buildTarget": ":fronted:builddevelopment"
+              "buildTarget": "fronted:build:development"
             }
           },
           "defaultConfiguration": "development"
-        },
-        "server": {
-          "builder": "@angular-devkit/build-angular:ssr",
-          "options": {
-            "outputPath": "dist/fronted/server",
-            "server": "src/main.server.ts",
-            "browserTarget": "fronted:build:production"
-          },
-          "configurations": {
-            "production": {
-              "outputHashing": "all"
-            },
-            "development": {}
-          },
-          "defaultConfiguration": "production"
-        },
-        "prerender": {
-          "builder": "@angular-devkit/build-angular:prerender",
-          "options": {
-            "browserTarget": "fronted:build:production",
-            "serverTarget": "fronted:server:production",
-            "routes": [
-              "/",
-              "/detalles-incidencia/1",
-              "/detalles-incidencia/2"
-            ]
-          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
@@ -102,7 +83,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {

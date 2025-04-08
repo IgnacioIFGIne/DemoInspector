@@ -11,13 +11,13 @@ import { MapComponent } from '../map/map.component';
   selector: 'app-detalles-incidencia',
   imports: [NgFor, NgIf, MapComponent],
   templateUrl: './detalles-incidencia.component.html',
-  styleUrls: ['./detalles-incidencia.component.css']
+  styleUrl: './detalles-incidencia.component.css'
 })
 export class DetallesIncidenciaComponent {
 
   id_incidencia: number = -1
   incidencia: Incidencia = {} as Incidencia
-
+  fotoError: boolean = false;
 
   constructor(private servicioInspector: InspectorService, private activatedRoute: ActivatedRoute, private dialog: MatDialog,   private router: Router) {}
 
@@ -32,14 +32,23 @@ export class DetallesIncidenciaComponent {
       data: { incidencia: incidencia },
       disableClose: true
     });
+    
+
   
-    dialogRef.afterClosed().subscribe((result: any) => { 
+    dialogRef.afterClosed().subscribe(result => { 
       if (result) { //result si se ha confirmado la edicion
         this.router.navigate(['/listado']); 
       }
     });
 
   }
-  
+
+  exportarIncidencia(incidencia: Incidencia) {
+    alert:("TODO: exportar incidencia");
+    
+
+
+  }
 
 }
+ 

@@ -1,4 +1,75 @@
-/* Incidents list */
+/* -------------------------------------------------- */
+/* ----------------------MOSAICO--------------------- */
+/* --------------------------------------------------- */
+
+/* Estilo para el formato por defecto (en columna) */
+.incidencias-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  /* Estilo para el formato mosaico - 3 columnas */
+  .incidencias-lista.mosaico {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+    gap: 16px;
+  }
+  
+ /* Botón de cambio de formato */
+.btn-toggle {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  /* Contenedor del switch */
+  .switch {
+    position: relative;
+    width: 50px; /* Reducido de 60px a 50px */
+    height: 25px; /* Reducido de 30px a 25px */
+    border-radius: 50px;
+    background-color: #ccc;
+    transition: background-color 0.3s;
+  }
+  
+  /* Círculo */
+  .circle {
+    position: absolute;
+    top: 50%; /* Centrado verticalmente */
+    left: 3px; /* Ajustado para que se mantenga más centrado */
+    width: 18px; /* Reducido de 24px a 18px */
+    height: 18px; /* Reducido de 24px a 18px */
+    border-radius: 50%;
+    background-color: white;
+    transform: translateY(-50%); /* Ajuste para centrar verticalmente */
+    transition: transform 0.3s; /* Asegura que el movimiento del círculo sea suave */
+  }
+  
+  /* Estado cuando está activo */
+  .btn-toggle.active .switch {
+    background-color: #4cd137; /* Cambio de color cuando está activo */
+  }
+  
+  /* Movimiento del círculo cuando el botón está activo */
+  .btn-toggle.active .circle {
+    transform: translateX(22px) translateY(-50%); /* Mueve el círculo a la derecha y mantiene centrado verticalmente */
+  }
+  
+  
+  
+
+/* -------------------------------------------------- */
+/* ----------------------LIST--------------------- */
+/* --------------------------------------------------- */
+
+
+
+/* Incidents list formato col umna*/
 .incidents-list {
     flex: 1;
     overflow-y: auto;
@@ -69,16 +140,40 @@
 }
 
 .btn-details{
-
-    background-color: white;
-    border: 1px solid #d1d5db;
-    color: #4b5563;
+    background-color: #2563eb;
+    color: white;
     padding: 8px 16px;
     border-radius: 6px;
     font-weight: 500;
 }
 .btn-details:hover {
     color: white;
-    background-color: #2563eb;
-    border: 1px solid #4b5563;
+    background-color: #173b8a;
   }
+
+  .bold{
+    font-weight: bold;
+  }
+
+
+
+  /* IMAGENES */
+  /* Imagen dentro de la incidencia en el formato mosaico */
+.incident-image {
+    width: 100%; /* La imagen tomará el 100% del ancho del contenedor */
+    height: auto; /* Mantendrá la proporción de la imagen */
+    border-radius: 8px; /* Si deseas bordes redondeados */
+    object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
+  }
+  
+  /* Imagen visible solo en el formato mosaico */
+  .incidencias-lista.mosaico .incident-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido, incluida la imagen */
+  }
+  
+  .incidencias-lista.mosaico .incident-image {
+    margin-bottom: 12px; /* Espacio debajo de la imagen */
+  }
+  
