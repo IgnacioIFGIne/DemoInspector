@@ -190,6 +190,36 @@ button {
   color: #9ca3af;
   padding: 30px;
 }
+.photos-box {
+  text-align: center;
+  color: #9ca3af;
+  padding: 30px;
+  border: 1px solid #ddd; /* Opcional, solo para darle un borde al contenedor */
+  border-radius: 8px; /* Opcional, redondear los bordes del contenedor */
+  background-color: #f9f9f9; /* Fondo suave para el contenedor */
+}
+
+.photos-box img {
+  max-width: 100%;  /* Hace que la imagen no se desborde */
+  height: auto;     /* Mantiene la proporción de la imagen */
+  display: block;   /* Hace que la imagen se comporte como un bloque */
+  margin: 0 auto;   /* Centra la imagen dentro del contenedor */
+  border-radius: 8px; /* Opcional, para redondear las esquinas de las imágenes */
+}
+
+.photos-box p {
+  font-size: 16px;
+  color: #6c757d;   /* Color gris para el texto */
+  font-weight: 600; /* Un poco más de peso en el texto */
+  margin-top: 20px;
+}
+
+.photos-box p.no-foto {
+  font-size: 18px;
+  color: #e74c3c; /* Color rojo para resaltar que no hay foto */
+  font-weight: 700; /* Hacer el texto más destacable */
+}
+
 
 /* Botones de acción */
 .actions {

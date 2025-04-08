@@ -19,7 +19,7 @@ export class DetallesIncidenciaComponent {
 
   id_incidencia: number = -1
   incidencia: Incidencia = {} as Incidencia
-
+  fotoError: boolean = false;
 
   constructor(private servicioInspector: InspectorService, private activatedRoute: ActivatedRoute, private dialog: MatDialog,   private router: Router) {}
 
@@ -34,6 +34,8 @@ export class DetallesIncidenciaComponent {
       data: { incidencia: incidencia },
       disableClose: true
     });
+    
+
   
     dialogRef.afterClosed().subscribe(result => { 
       if (result) { //result si se ha confirmado la edicion
@@ -42,6 +44,7 @@ export class DetallesIncidenciaComponent {
     });
 
   }
+<<<<<<< HEAD
   
   importarIncidencia() {
   const dialogRef = this.dialog.open(ImportarIncidenciaComponent, {
@@ -126,5 +129,15 @@ export class DetallesIncidenciaComponent {
     )
   }
   
+=======
+
+  exportarIncidencia(incidencia: Incidencia) {
+    alert:("TODO: exportar incidencia");
+    
+
+
+  }
+>>>>>>> 01d550afaf77d7133c0253c56db755b1e850bf1f
 
 }
+ 

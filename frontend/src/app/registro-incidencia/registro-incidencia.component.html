@@ -20,7 +20,7 @@
           </div>
           <div class="installation-address">
             <span class="material-icons location-icon">location_on</span>
-            <input type="text" class="form-input" name="instalacion"  placeholder="Dirección de la instalación" [(ngModel)]="incidencia.ubicacion">
+            <input type="text" class="form-input" name="ubicacion"  placeholder="Dirección de la instalación" [(ngModel)]="incidencia.ubicacion" readonly>
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@
             <div class="upload-area">
               <span class="material-icons camera-icon">photo_camera</span>
               <p class="upload-text">Toca para añadir una foto</p>
-              <!-- <input type="file" class="file-input" accept="image/*" (change)="onFileChange($event)"> -->
+              <input type="file" class="file-input" id="foto" (change)="onFileSelected($event)">
             </div>
           </div>
         </div>
