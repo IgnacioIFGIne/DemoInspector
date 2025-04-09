@@ -35,8 +35,6 @@ export class DetallesIncidenciaComponent {
       disableClose: true
     });
     
-
-  
     dialogRef.afterClosed().subscribe(result => { 
       if (result) { //result si se ha confirmado la edicion
         this.router.navigate(['/listado']); 
@@ -46,19 +44,21 @@ export class DetallesIncidenciaComponent {
   }
   
   importarIncidencia() {
-  const dialogRef = this.dialog.open(ImportarIncidenciaComponent, {
-    width: "500px",
-    disableClose: false,
-  });
+    const dialogRef = this.dialog.open(ImportarIncidenciaComponent, {
+      width: "500px",
+      disableClose: false,
+      data: { modo: "individual" }, // Indicar que queremos importar una incidencia individual
+    })
 
-  dialogRef.afterClosed().subscribe((result) => {
-    if (result === true) {
-      // Si la importación fue exitosa, recargar los datos de la incidencia
-      this.servicioInspector.getIncidencia_id(this.id_incidencia)
-        .subscribe((incident) => (this.incidencia = incident));
-    }
-  });
-}
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        // Si la importación fue exitosa, recargar los datos de la incidencia
+        this.servicioInspector
+          .getIncidencia_id(this.id_incidencia)
+          .subscribe((incident) => (this.incidencia = incident))
+      }
+    })
+  }
 
 
   exportarIncidencia(incidencia: Incidencia) {
@@ -89,22 +89,26 @@ export class DetallesIncidenciaComponent {
     // Llamar al servicio para exportar la incidencia, pasando el ID
     this.servicioInspector.exportarIncidencia(incidencia.id).subscribe(
       (data: Blob) => {
-        // Crear una URL para el blob recibido
-        const url = window.URL.createObjectURL(
-          new Blob([data], { type: 'text/csv' }) // Especificar el tipo MIME como CSV
-        );
-  
+        // Crear una URL para el blob recibido con codificación UTF-8
+        const blob = new Blob([data], { type: "text/csv;charset=utf-8" })
+
+        // Añadir BOM (Byte Order Mark) para asegurar que Excel reconozca UTF-8
+        const BOM = new Uint8Array([0xef, 0xbb, 0xbf])
+        const blobWithBOM = new Blob([BOM, data], { type: "text/csv;charset=utf-8" })
+
+        const url = window.URL.createObjectURL(blobWithBOM)
+
         // Crear un elemento <a> para descargar el archivo
         const a = document.createElement("a")
         a.href = url
         a.download = `incidencia_${incidencia.id}.csv` // Cambiar la extensión a .csv
-  
+
         // Añadir al DOM, hacer clic y eliminar
         document.body.appendChild(a)
         a.click()
         window.URL.revokeObjectURL(url)
         document.body.removeChild(a)
-  
+
         // Mostrar mensaje de éxito
         Swal.fire({
           title: "¡Exportación completada!",
@@ -124,10 +128,8 @@ export class DetallesIncidenciaComponent {
           confirmButtonColor: "#8c1a20",
         })
         console.error("Error al exportar la incidencia:", error)
-      }
+      },
     )
   }
-  
-
 }
  

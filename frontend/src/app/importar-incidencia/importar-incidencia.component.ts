@@ -121,50 +121,98 @@ export class ImportarIncidenciaComponent {
       },
     })
 
-    // Llamar al servicio según el modo
-    const observable =
+    // Leer el archivo como ArrayBuffer para preservar la codificación original
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        // Crear un nuevo Blob con el contenido original, sin intentar convertirlo a UTF-8
+        const arrayBuffer = e.target?.result as ArrayBuffer
+        const blob = new Blob([arrayBuffer], { type: "text/csv" })
+
+        // Crear un nuevo File a partir del Blob
+        const newFile = new File([blob], this.selectedFile!.name, {
+          type: "text/csv",
+          lastModified: this.selectedFile!.lastModified,
+        })
+
+        // Enviar el archivo sin modificar su codificación
+        this.enviarArchivo(newFile)
+      } catch (error) {
+        console.error("Error al procesar el archivo:", error)
+        this.handleImportError({ error: { error: "Error al procesar el archivo. Verifica su formato." } })
+      }
+    }
+
+    reader.onerror = (error) => {
+      console.error("Error al leer el archivo:", error)
+      this.handleImportError({ error: { error: "Error al leer el archivo." } })
+    }
+
+    // Leer el archivo como ArrayBuffer para preservar la codificación original
+    reader.readAsArrayBuffer(this.selectedFile)
+  }
+
+  // Método para enviar el archivo al servidor
+  private enviarArchivo(file: File): void {
+    if (this.modo === "individual") {
+      this.inspectorService.importarIncidencia(file).subscribe(
+        (response) => this.handleImportSuccess(response),
+        (error) => this.handleImportError(error),
+      )
+    } else {
+      this.inspectorService.importarTodasIncidencias(file).subscribe(
+        (response) => this.handleImportSuccess(response),
+        (error) => this.handleImportError(error),
+      )
+    }
+  }
+
+  // Método para manejar respuesta exitosa
+  private handleImportSuccess(response: any): void {
+    // Mensaje personalizado según el modo y la respuesta
+    const mensaje =
       this.modo === "individual"
-        ? this.inspectorService.importarIncidencia(this.selectedFile)
-        : this.inspectorService.importarTodasIncidencias(this.selectedFile)
+        ? "La incidencia ha sido actualizada correctamente"
+        : response.mensaje || "Las incidencias han sido actualizadas correctamente"
 
-    observable.subscribe(
-      (response) => {
-        // Mensaje personalizado según el modo y la respuesta
-        const mensaje =
-          this.modo === "individual"
-            ? "La incidencia ha sido actualizada correctamente"
-            : response.mensaje || "Las incidencias han sido actualizadas correctamente"
+    // Mostrar mensaje de éxito
+    Swal.fire({
+      title: "¡Importación completada!",
+      text: mensaje,
+      icon: "success",
+      confirmButtonText: "Aceptar",
+      confirmButtonColor: "#1a4b8c",
+    }).then(() => {
+      // Cerrar el diálogo y devolver true para indicar éxito
+      this.dialogRef.close(true)
+    })
+  }
 
-        // Mostrar mensaje de éxito
-        Swal.fire({
-          title: "¡Importación completada!",
-          text: mensaje,
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          confirmButtonColor: "#1a4b8c",
-        }).then(() => {
-          // Cerrar el diálogo y devolver true para indicar éxito
-          this.dialogRef.close(true)
-        })
-      },
-      (error) => {
-        // Mostrar mensaje de error
-        let errorMsg =
-          this.modo === "individual" ? "No se pudo importar la incidencia." : "No se pudieron importar las incidencias."
+  // Método para manejar errores
+  private handleImportError(error: any): void {
+    // Mostrar mensaje de error
+    let errorMsg =
+      this.modo === "individual" ? "No se pudo importar la incidencia." : "No se pudieron importar las incidencias."
 
-        // Si hay un mensaje de error específico del servidor, mostrarlo
-        if (error.error && error.error.error) {
-          errorMsg = error.error.error
-        }
+    // Si hay un mensaje de error específico del servidor, mostrarlo
+    if (error.error && error.error.error) {
+      errorMsg = error.error.error
+    } else if (error.status === 400) {
+      errorMsg = "El formato del archivo CSV no es correcto o contiene datos inválidos."
+    } else if (error.status === 404) {
+      errorMsg = "No se encontraron algunas incidencias con los IDs proporcionados."
+    } else if (error.status === 500) {
+      errorMsg = "Error en el servidor al procesar el archivo. Por favor, contacte al administrador."
+    }
 
-        Swal.fire({
-          title: "Error",
-          text: errorMsg,
-          icon: "error",
-          confirmButtonText: "Aceptar",
-          confirmButtonColor: "#8c1a20",
-        })
-      },
-    )
+    console.error("Error detallado:", error)
+
+    Swal.fire({
+      title: "Error",
+      text: errorMsg,
+      icon: "error",
+      confirmButtonText: "Aceptar",
+      confirmButtonColor: "#8c1a20",
+    })
   }
 }

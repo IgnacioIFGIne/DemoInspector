@@ -197,7 +197,15 @@ def importar_incidencias():
     
     try:
         # Paso 2: Leer el contenido del archivo CSV
-        stream = io.StringIO(file.stream.read().decode("utf-8"))
+        # Intentar con UTF-8 primero, si falla usar Latin-1
+        try:
+            content = file.stream.read().decode("utf-8")
+        except UnicodeDecodeError:
+            # Reiniciar el puntero del archivo y decodificar con Latin-1
+            file.stream.seek(0)
+            content = file.stream.read().decode("latin-1")
+        
+        stream = io.StringIO(content)
         reader = csv.reader(stream, delimiter=';')
         
         # Paso 3: Extraer la cabecera del CSV

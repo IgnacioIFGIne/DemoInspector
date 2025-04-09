@@ -65,10 +65,13 @@ export class MainComponent {
     // Llamar al servicio para exportar todas las incidencias
     this.inspectorService.exportarTodasIncidencias().subscribe(
       (data: Blob) => {
+        
+        // Añadir BOM (Byte Order Mark) para asegurar que Excel reconozca UTF-8
+        const BOM = new Uint8Array([0xef, 0xbb, 0xbf]);
+        const blobWithBOM = new Blob([BOM, data], { type: "text/csv;charset=utf-8" });
+
         // Crear una URL para el blob recibido
-        const url = window.URL.createObjectURL(
-          new Blob([data], { type: "text/csv" }), // Especificar el tipo MIME como CSV
-        )
+        const url = window.URL.createObjectURL(blobWithBOM);
 
         // Crear un elemento <a> para descargar el archivo
         const a = document.createElement("a")

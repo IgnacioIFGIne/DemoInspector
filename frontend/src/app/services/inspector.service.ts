@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import { Incidencia } from '../model/incidencia';
 
@@ -41,32 +41,62 @@ export class InspectorService {
 
     // Método para exportar una incidencia
     exportarIncidencia(id: number): Observable<Blob> {
+      // Configurar headers para especificar UTF-8
+      const headers = new HttpHeaders({
+        "Accept-Charset": "UTF-8",
+      })
+  
       return this.http.get(this.ruta_rest_services + "rest/exportar_incidencia?id=" + id, {
-        responseType: 'blob'  // Importante: especificar que esperamos un blob como respuesta
-      });
+        headers: headers,
+        responseType: "blob", // Importante: especificar que esperamos un blob como respuesta
+      })
     }
 
     // Método para importar una incidencia desde un archivo CSV
-  importarIncidencia(file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file);
+    importarIncidencia(file: File): Observable<any> {
+      const formData = new FormData()
   
-    return this.http.post(this.ruta_rest_services + "rest/importar_incidencia", formData);
-  }
+      // Importante: el nombre del campo debe coincidir con lo que espera el backend
+      formData.append("file", file, file.name)
+  
+      // Añadir un header para indicar que no se debe intentar decodificar como UTF-8
+      const headers = new HttpHeaders({
+        "X-Skip-UTF8-Validation": "true",
+      })
+  
+      console.log("Enviando archivo:", file.name, "tamaño:", file.size, "tipo:", file.type)
+  
+      return this.http.post(this.ruta_rest_services + "rest/importar_incidencia", formData, { headers })
+    }
 
   // Método para exportar todas las incidencias
   exportarTodasIncidencias(): Observable<Blob> {
+    // Configurar headers para especificar UTF-8
+    const headers = new HttpHeaders({
+      "Accept-Charset": "UTF-8",
+    })
+
     return this.http.get(this.ruta_rest_services + "rest/exportar_incidencias", {
-    responseType: "blob", // Importante: especificar que esperamos un blob como respuesta
+      headers: headers,
+      responseType: "blob", // Importante: especificar que esperamos un blob como respuesta
     })
   }
 
   // Método para importar todas las incidencias desde un archivo CSV
   importarTodasIncidencias(file: File): Observable<any> {
     const formData = new FormData()
-    formData.append("file", file)
 
-    return this.http.post(this.ruta_rest_services + "rest/importar_incidencias", formData)
+    // Importante: el nombre del campo debe coincidir con lo que espera el backend
+    formData.append("file", file, file.name)
+
+    // Añadir un header para indicar que no se debe intentar decodificar como UTF-8
+    const headers = new HttpHeaders({
+      "X-Skip-UTF8-Validation": "true",
+    })
+
+    console.log("Enviando archivo:", file.name, "tamaño:", file.size, "tipo:", file.type)
+
+    return this.http.post(this.ruta_rest_services + "rest/importar_incidencias", formData, { headers })
   }
 
 
