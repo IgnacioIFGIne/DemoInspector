@@ -10,7 +10,7 @@
       <div class="incident-content">
         <!-- Imagen visible solo cuando estamos en formato mosaico -->
         <img *ngIf="esMosaico" src="../../assets/images/Logo_Ineco.png" alt="Imagen de la incidencia" class="incident-image">
-        
+        <!-- <img *ngIf="esMosaico" src="backend/static/imagesIncidencias/{{incidencia.id}}.jpg" alt="Imagen de la incidencia" class="incident-image"> -->
         <!-- Datos de la incidencia -->
         <h3>{{incidencia.instalacion}}</h3>
         <p class="description"><span class="bold">Elemento:</span> {{incidencia.elemento}}</p>
