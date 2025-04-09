@@ -1,4 +1,4 @@
-<!doctype html>
+<!-- <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -13,10 +13,9 @@
   
   <app-root></app-root>
 </body>
-</html>
+</html> -->
 
-
-<!-- <!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -132,13 +131,29 @@
     const pass = document.getElementById('password').value;
 
     if (user === 'admin' && pass === 'admin123') {
-      document.getElementById('fake-login').style.display = 'none';
-      document.querySelector('app-root').style.display = 'block';
+      sessionStorage.setItem("logueado", "true");
+      mostrarApp();
     } else {
       document.getElementById('error').style.display = 'block';
     }
   }
+
+  function mostrarApp() {
+    document.getElementById('fake-login').style.display = 'none';
+    document.querySelector('app-root').style.display = 'block';
+  }
+
+  window.onload = () => {
+    if (sessionStorage.getItem("logueado") === "true") {
+      mostrarApp();
+    } else {
+      document.getElementById('fake-login').style.display = 'flex';
+    }
+  };
 </script>
 
 </body>
-</html>  -->
+</html>
+
+
+
