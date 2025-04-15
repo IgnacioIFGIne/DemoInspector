@@ -1,29 +1,34 @@
 <main>
-    <div class="map-container">
-        <!-- Map will be loaded here -->
-        <app-map></app-map>
-    </div>
+  <div class="map-container">
+    <!-- Map will be loaded here -->
+    <app-map></app-map>
+  </div>
 
-    <div class="filters-container">
-        <div class="filters">
-          <button class="filter-btn active">Todos</button>
-          <button class="filter-btn">Arqueta</button>
-          <button class="filter-btn">Averías</button>
-          <button class="filter-btn">En progreso</button>
-        </div>
-        <div class="action-buttons">
-          <button (click)="exportarIncidencias()" title="Exportar"><i class='bx bx-download'></i></button>
-          <button (click)="importarIncidencias()" title="Importar"><i class='bx bx-upload'></i></button>
-        </div>
+  <div class="filters-container">
+    <div class="left-group">
+      <div class="location-title">
+        <h2>Valdecarros</h2>
       </div>
-
-    <!-- TODO: Barra de buscador -->
-
-    <!-- TODO: Barra de buscador -->
-
-    <div class="incidents-list">
-        <app-listado></app-listado>
+      <div class="action-buttons">
+        <button class="btn-importar" (click)="importarIncidencias()">Importar</button>
+        <button class="btn-exportar" (click)="exportarIncidencias()">Exportar</button>
+      </div>
     </div>
-
     
+    <!-- Botón para alternar el formato (nuevo estilo) -->
+    <div class="view-toggle">
+      <button [class.active]="!esMosaico" (click)="alternarFormato(false)">
+        <i class="fas fa-list"></i>
+      </button>
+      <button [class.active]="esMosaico" (click)="alternarFormato(true)">
+        <i class="fas fa-th-large"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- TODO: Barra de buscador -->
+
+  <div class="incidents-list">
+    <app-listado #listadoComponent></app-listado>
+  </div>
 </main>

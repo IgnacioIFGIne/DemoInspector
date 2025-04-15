@@ -169,21 +169,36 @@ export class ImportarIncidenciaComponent {
 
   // Método para manejar respuesta exitosa
   private handleImportSuccess(response: any): void {
-    // Mensaje personalizado según el modo y la respuesta
-    const mensaje =
-      this.modo === "individual"
-        ? "La incidencia ha sido actualizada correctamente"
-        : response.mensaje || "Las incidencias han sido actualizadas correctamente"
+    console.log("Respuesta del servidor:", response)
 
-    // Mostrar mensaje de éxito
+    // Determinar si se actualizaron incidencias basado en el mensaje
+    let numActualizadas = 0
+    let mensaje = ""
+
+    if (this.modo === "individual") {
+      // Para importar_incidencia, siempre consideramos que se actualizó 1 incidencia si la respuesta es exitosa
+      numActualizadas = 1
+      mensaje = response.mensaje || "La incidencia ha sido actualizada correctamente"
+    } else {
+      // Para importar_incidencias, extraer el número del mensaje
+      mensaje = response.mensaje || "Las incidencias han sido actualizadas correctamente"
+
+      // Intentar extraer el número de incidencias actualizadas del mensaje
+      const match = mensaje.match(/Se han actualizado (\d+) incidencias/)
+      if (match && match[1]) {
+        numActualizadas = Number.parseInt(match[1], 10)
+      }
+    }
+
+    // Mostrar mensaje de éxito o advertencia según corresponda
     Swal.fire({
-      title: "¡Importación completada!",
+      title: numActualizadas > 0 ? "¡Importación completada!" : "Importación completada sin cambios",
       text: mensaje,
-      icon: "success",
+      icon: "success", // Siempre mostrar éxito si la respuesta del servidor es exitosa
       confirmButtonText: "Aceptar",
       confirmButtonColor: "#1a4b8c",
     }).then(() => {
-      // Cerrar el diálogo y devolver true para indicar éxito
+      // Cerrar el diálogo y devolver true para indicar que el proceso se completó
       this.dialogRef.close(true)
     })
   }

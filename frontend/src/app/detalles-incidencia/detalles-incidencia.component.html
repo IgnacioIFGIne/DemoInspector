@@ -1,88 +1,77 @@
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>INECO INSPECTOR - Detalle de Incidencia</title>
-  <!-- <link rel="stylesheet" href="styles.css"> -->
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-  <div class="container">
-    <!-- Header -->
-    <header>
-      <div class="header-left">
-        <button><i class='bx bx-arrow-back'></i></button>
-        <h1>INECO INSPECTOR</h1>
-      </div>
-      <div class="header-right">
-        <button (click)="exportarIncidencia(incidencia)" title="Exportar"><i class='bx bx-download'></i></button>
-        <button (click)="importarIncidencia()" title="Importar"><i class='bx bx-upload'></i></button>
-        <button title="Imprimir"><i class='bx bx-printer'></i></button>
-      </div>
-    </header>
-
-    <!-- Mapa -->
-    <div class="map">
-      <div class="map-marker"></div>
-      <app-map></app-map>
+<div class="container">
+  <!-- Barra de navegación simplificada -->
+  <div class="nav-bar">
+    <div class="nav-left">
+      <button (click)="goBack()" class="nav-button" title="Volver"><i class="fas fa-arrow-left"></i></button>
     </div>
-
-    <!-- Detalles de la incidencia -->
-    <div class="card">
-      <div class="card-header">
-        <h2>Detalles de la Incidencia</h2>
-      </div>
-      <div class="card-content">
-        <div class="details-grid">
-          <div class="details-column">
-            <div class="detail-item">
-              <div class="detail-item">
-                <h3>Instalación</h3>
-                <p>{{incidencia.instalacion}}</p>
-              </div>
-              <h3>Elemento</h3>
-              <p>{{incidencia.elemento}}</p>
-            </div>
-            <div class="detail-item">
-              <h3>Ubicación</h3>
-              <p>{{incidencia.ubicacion}}</p>
-            </div>
-          </div>
-          <div class="details-column">
-            <div class="detail-item">
-              <h3>Disciplina</h3>
-              <p>{{incidencia.tipo}}</p>
-            </div>
-            <div class="detail-item">
-              <h3>Estado</h3>
-              <p class="status-resolved">{{incidencia.estado}}</p>
-            </div>
-            <div class="detail-item">
-              <h3>Fecha</h3>
-              <p>{{incidencia.fecha}}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="detail-item">
-          <h3>Observaciones</h3>
-          <div class="observation-box">
-            <p>{{incidencia.observaciones}}</p>
-          </div>
-        </div>
-
-        <div class="detail-item">
-          <h3>Fotos</h3>
-          <div class="photos-box">
-            <img src = "backend/static/imagesIncidencias/{{incidencia.id}}.jpg" alt="Foto de la incidencia" (error)="fotoError=true">
-            <p *ngIf="fotoError">No hay fotos para esta incidencia</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Botones de acción -->
-    <div class="actions">
-      <button class="btn-outline">Cancelar</button>
-      <!-- btn-primary -->
-      <button (click)="editarIncidencia(incidencia)" class="boton-editar">Editar incidencia</button>
+    <div class="nav-right">
+      <button (click)="exportarIncidencia(incidencia)" class="nav-button" title="Exportar"><i class="fas fa-download"></i></button>
+      <button (click)="importarIncidencia()" class="nav-button" title="Importar"><i class="fas fa-upload"></i></button>
     </div>
   </div>
+
+  <!-- Mapa -->
+  <div class="map">
+    <app-map></app-map>
+  </div>
+
+  <!-- Detalles de la incidencia -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Detalles de la Incidencia</h2>
+    </div>
+    <div class="card-content">
+      <div class="details-grid">
+        <div class="details-column">
+          <div class="detail-item">
+            <div class="detail-item">
+              <h3>Instalación</h3>
+              <p>{{incidencia.instalacion}}</p>
+            </div>
+            <h3>Elemento</h3>
+            <p>{{incidencia.elemento}}</p>
+          </div>
+          <div class="detail-item">
+            <h3>Ubicación</h3>
+            <p>{{incidencia.ubicacion}}</p>
+          </div>
+        </div>
+        <div class="details-column">
+          <div class="detail-item">
+            <h3>Disciplina</h3>
+            <p>{{incidencia.tipo}}</p>
+          </div>
+          <div class="detail-item">
+            <h3>Estado</h3>
+            <p [ngClass]="getEstadoClass(incidencia.estado)">{{incidencia.estado}}</p>
+          </div>
+          <div class="detail-item">
+            <h3>Fecha</h3>
+            <p>{{incidencia.fecha}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-item">
+        <h3>Observaciones</h3>
+        <div class="observation-box">
+          <p>{{getObservacionesTexto()}}</p>
+        </div>
+      </div>
+
+      <div class="detail-item">
+        <h3>Fotos</h3>
+        <div class="photos-box">
+          <img [src]="getFotoUrl()" alt="Foto de la incidencia" (error)="fotoError=true">
+          <p *ngIf="fotoError">No hay fotos para esta incidencia</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="actions">
+    <button class="btn-outline" (click)="goBack()">Cancelar</button>
+    <button (click)="editarIncidencia(incidencia)" class="boton-editar">Editar incidencia</button>
+  </div>
+</div>

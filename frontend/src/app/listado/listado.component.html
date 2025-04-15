@@ -1,53 +1,39 @@
-  <!-- Botón para alternar el formato -->
-  <button (click)="alternarFormato()" class="btn-toggle" [class.active]="esMosaico">
-    <div class="switch">
-      <div class="circle"></div>
-    </div>
-  </button>
-  
 <div class="incidencias-lista" [ngClass]="{'mosaico': esMosaico}">
-    <div class="incidencia" *ngFor="let incidencia of incidencias">
-      <div class="incident-content">
-        <!-- Imagen visible solo cuando estamos en formato mosaico -->
-        <img *ngIf="esMosaico" src="../../assets/images/Logo_Ineco.png" alt="Imagen de la incidencia" class="incident-image">
-        <!-- <img *ngIf="esMosaico" src="backend/static/imagesIncidencias/{{incidencia.id}}.jpg" alt="Imagen de la incidencia" class="incident-image"> -->
-        <!-- Datos de la incidencia -->
+  <div class="incidencia" *ngFor="let incidencia of incidencias">
+    <div class="incident-content">
+      <!-- Imagen visible solo cuando estamos en formato mosaico -->
+      <img *ngIf="esMosaico" src="../../assets/images/Logo_Ineco.png" alt="Imagen de la incidencia" class="incident-image">
+      <!-- <img *ngIf="esMosaico" src="backend/static/imagesIncidencias/{{incidencia.id}}.jpg" alt="Imagen de la incidencia" class="incident-image"> -->
+      
+      <!-- Título con estado a la derecha en modo mosaico -->
+      <div class="title-container" *ngIf="esMosaico">
         <h3>{{incidencia.instalacion}}</h3>
-        <p class="description"><span class="bold">Elemento:</span> {{incidencia.elemento}}</p>
-        <p class="address"><span class="bold">Ubicación:</span> {{incidencia.ubicacion}}</p>
-        
-        <button class="btn-details" (click)="verDetalles(incidencia)">VER DETALLES</button>
+        <span class="status-badge-inline" [ngClass]="getEstadoClass(incidencia.estado)">{{incidencia.estado}}</span>
       </div>
-      <div class="incident-status">
-        <span class="status-badge en-progreso">{{incidencia.estado}}</span>
-        <p class="time">Hace 5h</p>
+      
+      <!-- Título normal en modo lista -->
+      <h3 *ngIf="!esMosaico">{{incidencia.instalacion}}</h3>
+      
+      <!-- Datos de la incidencia -->
+      <p class="description text-left"><span class="bold">Elemento:</span> {{incidencia.elemento}}</p>
+      <p class="address text-left"><span class="bold">Ubicación:</span> {{incidencia.ubicacion}}</p>
+      
+      <!-- Observaciones - visible SOLO en modo lista (no en mosaico) -->
+      <p *ngIf="!esMosaico" class="observations"><span class="bold">Observaciones:</span> {{getObservacionesTexto(incidencia.observaciones)}}</p>
+      
+      <p class="date text-left"><span class="bold">Fecha:</span> {{incidencia.fecha}}</p>
+      
+      <!-- Estado en modo mosaico (ahora se muestra junto al título) -->
+      <div *ngIf="!esMosaico" [ngClass]="{'status-inline': esMosaico, 'status-right': !esMosaico}">
+        <span class="status-badge" [ngClass]="getEstadoClass(incidencia.estado)">{{incidencia.estado}}</span>
       </div>
+      
+      <button class="btn-details" (click)="verDetalles(incidencia)">VER DETALLES</button>
+    </div>
+    
+    <!-- Estado en modo lista (visible solo en modo lista) -->
+    <div class="incident-status" *ngIf="!esMosaico">
+      <span class="status-badge" [ngClass]="getEstadoClass(incidencia.estado)">{{incidencia.estado}}</span>
     </div>
   </div>
- 
-
-  <!-- ----------------------------------------------------------- -->
-  <!-- ----------------MODELO ANTERIOR SIN MOSAICO---------------- -->
-  <!-- ----------------------------------------------------------- -->
-
-<!-- <div class="incidencia" *ngFor="let incidencia of incidencias">
-    <div class="incident-content">
-        <h3>{{incidencia.instalacion}}</h3>
-        <p class="description"><span class="bold">Elemento:</span> {{incidencia.elemento}}</p>
-        <p class="address"><span class="bold">Ubicacion:</span> {{incidencia.ubicacion}}</p>
-         -->
-        <!--ver detalles de la incidencia -->
-        <!-- <button class="btn-details" (click)="verDetalles(incidencia)">VER DETALLES</button>   
-        
-    </div>
-    <div class="incident-status">
-        <span class="status-badge en-progreso">{{incidencia.estado}}</span>
-      <p class="time">Hace 5h</p>   
-    </div>
-</div>  -->
-
-
-
-
-
-
+</div>

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core"
+import { Component, ViewChild } from "@angular/core"
 import { MapComponent } from "../map/map.component"
 import { ListadoComponent } from "../listado/listado.component"
 import { MatDialog } from "@angular/material/dialog"
@@ -15,11 +15,17 @@ import { CommonModule } from "@angular/common"
   styleUrl: "./main.component.css",
 })
 export class MainComponent {
+  @ViewChild("listadoComponent") listadoComponent!: ListadoComponent
+
+  // Propiedad para controlar el formato de visualización
+  esMosaico = false
+
   constructor(
     private dialog: MatDialog,
     private inspectorService: InspectorService,
   ) {}
 
+  // Modificar el método importarIncidencias para actualizar la lista después de importar
   importarIncidencias(): void {
     const dialogRef = this.dialog.open(ImportarIncidenciaComponent, {
       width: "500px",
@@ -29,20 +35,20 @@ export class MainComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
-        // Si la importación fue exitosa, mostrar un mensaje breve y recargar la página
+        // Si la importación fue exitosa, mostrar un mensaje breve y recargar los datos
         Swal.fire({
-          title: "¡Importación exitosa!",
-          text: "Recargando la página para mostrar los cambios...",
+          title: "¡Importación completada!",
+          text: "Actualizando datos...",
           icon: "success",
           showConfirmButton: false,
           timer: 1500,
           timerProgressBar: true,
           didOpen: () => {
             Swal.showLoading()
-            // Programar la recarga de la página después de que se muestre el mensaje
-            setTimeout(() => {
-              window.location.reload()
-            }, 1500)
+            // En lugar de recargar toda la página, solo actualizamos los datos
+            if (this.listadoComponent) {
+              this.listadoComponent.actualizarIncidencias()
+            }
           },
         })
       }
@@ -65,13 +71,12 @@ export class MainComponent {
     // Llamar al servicio para exportar todas las incidencias
     this.inspectorService.exportarTodasIncidencias().subscribe(
       (data: Blob) => {
-        
         // Añadir BOM (Byte Order Mark) para asegurar que Excel reconozca UTF-8
-        const BOM = new Uint8Array([0xef, 0xbb, 0xbf]);
-        const blobWithBOM = new Blob([BOM, data], { type: "text/csv;charset=utf-8" });
+        const BOM = new Uint8Array([0xef, 0xbb, 0xbf])
+        const blobWithBOM = new Blob([BOM, data], { type: "text/csv;charset=utf-8" })
 
         // Crear una URL para el blob recibido
-        const url = window.URL.createObjectURL(blobWithBOM);
+        const url = window.URL.createObjectURL(blobWithBOM)
 
         // Crear un elemento <a> para descargar el archivo
         const a = document.createElement("a")
@@ -105,5 +110,15 @@ export class MainComponent {
         console.error("Error al exportar las incidencias:", error)
       },
     )
+  }
+
+  // Método para alternar el formato de visualización
+  alternarFormato(mosaico: boolean): void {
+    this.esMosaico = mosaico
+
+    // Actualizar el formato en el componente de listado
+    if (this.listadoComponent) {
+      this.listadoComponent.alternarFormato(mosaico)
+    }
   }
 }

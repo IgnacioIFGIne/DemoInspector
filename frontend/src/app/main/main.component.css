@@ -1,156 +1,174 @@
 main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  
-  .map-container {
-    height: 50vh;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  #map {
-    width: 100%;
-    height: 100%;
-    background-color: #e5e5e5;
-  }
-  
-  /* Filters container - modificado para incluir los botones de acción */
-  .filters-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    padding: 0 16px;
-  }
-  
-  /* Filters */
-  .filters {
-    display: flex;
-    padding: 12px 0;
-    gap: 8px;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-  
-  .filter-btn {
-    padding: 6px 16px;
-    border-radius: 20px;
-    border: none;
-    background-color: #f0f0f0;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  .filter-btn:hover {
-    padding: 6px 16px;
-    border-radius: 20px;
-    border: none;
-    background-color: #e6f0ff;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  .filter-btn.active {
-    background-color: #e6f0ff;
-    color: #0066cc;
-  }
-  
-  /* Action buttons - nuevo estilo para los botones de acción */
-  .action-buttons {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .action-buttons button {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    padding: 8px;
-    cursor: pointer;
-    font-size: 18px;
-    color: #4b5563;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s, color 0.2s;
-  }
-  
-  .action-buttons button:hover {
-    background-color: #f3f4f6;
-    color: #1e40af;
-  }
-  
-  /* Incidents list */
-  .incidents-list {
-    flex: 1;
-    overflow-y: auto;
-    padding: 8px 16px;
-  }
-  
-  .incident-card {
-    display: flex;
-    justify-content: space-between;
-    background-color: white;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .incident-content {
-    flex: 1;
-  }
-  
-  .incident-content h3 {
-    font-size: 16px;
-    margin-bottom: 4px;
-    color: #333;
-  }
-  
-  .address {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 8px;
-  }
-  
-  .description {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.4;
-  }
-  
-  .incident-status {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: space-between;
-    min-width: 100px;
-  }
-  
-  .status-badge {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-  }
-  
-  .averia {
-    background-color: #ffebee;
-    color: #f44336;
-  }
-  
-  .en-progreso {
-    background-color: #fff8e1;
-    color: #ffa000;
-  }
-  
-  .time {
-    font-size: 12px;
-    color: #999;
-    margin-top: 8px;
-  }
-  
-  
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.map-container {
+  height: 50vh;
+  position: relative;
+  overflow: hidden;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  background-color: #e5e5e5;
+}
+
+/* Filters container - modificado para alinear correctamente */
+.filters-container {
+  display: flex;
+  justify-content: space-between; /* Esto separa los grupos izquierdo y derecho */
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 0 16px;
+  margin: 7px 0;
+}
+
+/* Grupo izquierdo que contiene el título y los botones de acción */
+.left-group {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espacio entre el título y los botones */
+}
+
+/* Título de ubicación */
+.location-title h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Action buttons - estilos actualizados según la imagen */
+.action-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.btn-importar,
+.btn-exportar {
+  border: none;
+  border-radius: 20px; /* Bordes mucho más redondeados, como en la segunda imagen */
+  padding: 6px 15px; /* Padding ajustado para mejor apariencia */
+  font-size: 14px;
+  font-weight: normal;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-importar {
+  background-color: #9ca3af; /* Gris claro como en la imagen */
+}
+
+.btn-exportar {
+  background-color: #4b5563; /* Gris oscuro como en la imagen */
+}
+
+/* Nuevo estilo para el botón de cambio de formato */
+.view-toggle {
+  display: inline-flex;
+  background-color: #f0f0f0;
+  border-radius: 5px; /* Mismo radio que los botones importar/exportar */
+  overflow: hidden;
+  border: 1px solid #ddd;
+  height: 32px; /* Ajustar altura para que coincida con los otros botones */
+}
+
+.view-toggle button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; /* Reducir ancho */
+  height: 32px; /* Igualar a la altura del contenedor para que ocupe todo el espacio */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0; /* Eliminar cualquier margen */
+}
+
+.view-toggle button.active {
+  background-color: #333;
+  color: white;
+}
+
+.view-toggle button:first-child {
+  border-right: 1px solid #ddd;
+}
+
+/* Estilos para los iconos */
+.view-toggle i {
+  font-size: 14px; /* Reducir tamaño de iconos */
+}
+
+/* Incidents list */
+.incidents-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 16px;
+}
+
+.incident-card {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.incident-content {
+  flex: 1;
+}
+
+.incident-content h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.address {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.incident-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  min-width: 100px;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.averia {
+  background-color: #ffebee;
+  color: #f44336;
+}
+
+.en-progreso {
+  background-color: #fff8e1;
+  color: #ffa000;
+}
+
+.time {
+  font-size: 12px;
+  color: #999;
+  margin-top: 8px;
+}

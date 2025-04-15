@@ -36,26 +36,34 @@ def obtener_incidencia_id():
     incidencia = modelo.repositorio_inspector.obtener_incidencia_id(id)
     return jsonify(incidencia)
 
-@app.route(ruta_servicios_rest + "/actualizar_incidencia", methods = ["POST"])
+@app.route(ruta_servicios_rest + "/actualizar_incidencia", methods=["POST"])
 def actualizar_incidencia():
     print("Headers:", request.headers)
-    data = request.get_json
-    print("JSON data: ", data)
+    # Se obtiene el JSON completo de la solicitud
+    data = request.get_json()
+    print("JSON data:", data)
     
-    elemento = request.get_json()["elemento"]
-    instalacion = request.get_json()["instalacion"]
-    ubicacion = request.get_json()["ubicacion"]
-    tipo = request.get_json()["tipo"]
-    estado = request.get_json()["estado"]
-    fecha = request.get_json()["fecha"]
-    observaciones = request.get_json()["observaciones"]
-    
-    id = request.get_json()["id"]
+    # Extraer los datos necesarios
+    elemento = data["elemento"]
+    instalacion = data["instalacion"]
+    ubicacion = data["ubicacion"]
+    tipo = data["tipo"]
+    estado = data["estado"]
+    fecha = data["fecha"]
+    observaciones = data["observaciones"]
+    id_actualizar = data["id"]
 
+    # Verificar si alguna incidencia (distinta a la que se va a actualizar) ya tiene el mismo valor en 'instalacion'
+    incidencias = modelo.repositorio_inspector.obtener_incidencias()
+    for inc in incidencias:
+        if inc["instalacion"].strip().lower() == instalacion.strip().lower() and str(inc["id"]) != str(id_actualizar):
+            return jsonify({"error": "este nombre de incidencia ya existe"}), 400
+
+    print(f"----REGISTRO ACTUALIZADO----- ID: {id_actualizar}, elemento: {elemento}, instalacion: {instalacion}, ubicacion: {ubicacion}, tipo: {tipo}, estado: {estado}, fecha: {fecha}, observaciones: {observaciones}")
     
-    print(f"----REGISTRO ACTUALIZADO----- ID, {id} elemento: {elemento}, instalacion: {instalacion}, ubicacion: {ubicacion}, tipo: {tipo}, estado: {estado}, fecha: {fecha}, observaciones: {observaciones}")
-    
-    modelo.repositorio_inspector.actualizar_incidencia(elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones, id)
+    modelo.repositorio_inspector.actualizar_incidencia(
+        elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones, id_actualizar
+    )
     
     return jsonify("ok")
 
@@ -107,9 +115,18 @@ def registrar_incidencia():
         ubicacion = request.form["ubicacion"]
         tipo = request.form["tipo"]
         estado = request.form["estado"]
-        fecha = request.form["fecha"]
+        
+        # Generar el timestamp actual en el formato "DD/MM/YYYY - hh:mm:ss"
+        fecha = datetime.now().strftime("%d/%m/%Y - %H:%M:%S")
+        
         observaciones = request.form.get("observaciones", "")
         
+        # Verificar si alguna incidencia ya tiene el mismo valor en 'instalacion'
+        incidencias = modelo.repositorio_inspector.obtener_incidencias()
+        for inc in incidencias:
+            if inc["instalacion"].strip().lower() == instalacion.strip().lower():
+                return jsonify({"error": "este nombre de incidencia ya existe"}), 400
+
         # Registrar la incidencia y obtener el ID generado
         id_generado = modelo.repositorio_inspector.registrar_incidencia(
             elemento, instalacion, ubicacion, tipo, estado, fecha, observaciones
@@ -128,47 +145,64 @@ def registrar_incidencia():
     except Exception as e:
         print(f"Error al registrar incidencia: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
-
-
 #------------------------------------------------------------------------
 #------------------------------importar---------------------------------
 #------------------------------------------------------------------------
 
 
 
-# Endpoint para importar y actualizar una incidencia desde un CSV
 @app.route(ruta_servicios_rest + "/importar_incidencia", methods=["POST"])
 def importar_incidencia():
     # Paso 1: Verificar que se haya enviado un archivo CSV
     if "file" not in request.files:
+        print("Error: No se encontró el archivo CSV en la solicitud")
         return jsonify({"error": "No se encontró el archivo CSV en la solicitud"}), 400
- 
+
     file = request.files["file"]
     if file.filename == "":
+        print("Error: No se seleccionó ningún archivo")
         return jsonify({"error": "No se seleccionó ningún archivo"}), 400
- 
+
+    print("Archivo recibido:", file.filename)
+
     try:
         # Paso 2: Leer el contenido del archivo CSV
-        stream = io.StringIO(file.stream.read().decode("utf-8"))
+        # Se utiliza utf-8-sig para que el BOM (si existe) se elimine automáticamente.
+        try:
+            content = file.stream.read().decode("utf-8-sig")
+            print("Archivo decodificado con UTF-8-SIG correctamente")
+        except UnicodeDecodeError:
+            file.stream.seek(0)
+            content = file.stream.read().decode("latin-1")
+            print("Archivo decodificado con Latin-1")
+            
+        stream = io.StringIO(content)
         reader = csv.reader(stream, delimiter=';')
        
         # Paso 3: Leer la cabecera y la primera fila de datos
         header = next(reader, None)
+        print("Cabecera del CSV:", header)
         if not header:
+            print("Error: El archivo CSV está vacío")
             return jsonify({"error": "El archivo CSV está vacío"}), 400
  
         row = next(reader, None)
+        print("Datos encontrados en la primera fila:", row)
         if not row:
+            print("Error: El archivo CSV no contiene datos de incidencia")
             return jsonify({"error": "El archivo CSV no contiene datos de incidencia"}), 400
  
         # Paso 4: Construir un diccionario con los datos usando la cabecera
         incidencia_data = dict(zip(header, row))
+        print("Datos de incidencia mapeados:", incidencia_data)
  
         # Paso 5: Validar que el CSV incluya el campo "id"
         if "id" not in incidencia_data or not incidencia_data["id"]:
+            print("Error: El CSV debe contener el campo 'id'")
             return jsonify({"error": "El CSV debe contener el campo 'id'"}), 400
  
         # Paso 6: Actualizar la incidencia en la base de datos
+        print("Actualizando incidencia con id:", incidencia_data.get("id"))
         modelo.repositorio_inspector.actualizar_incidencia(
             incidencia_data.get("elemento"),
             incidencia_data.get("instalacion"),
@@ -179,49 +213,72 @@ def importar_incidencia():
             incidencia_data.get("observaciones"),
             incidencia_data.get("id")
         )
+        print("Incidencia actualizada correctamente")
         return jsonify({"mensaje": "Incidencia actualizada correctamente"}), 200
- 
+
     except Exception as e:
+        print("Error durante la importación de incidencia:", str(e))
         return jsonify({"error": str(e)}), 500
-   
+
 
 
 @app.route(ruta_servicios_rest + "/importar_incidencias", methods=["POST"])
 def importar_incidencias():
     # Paso 1: Verificar que se haya enviado el archivo CSV en la solicitud
     if "file" not in request.files:
+        print("Error: No se encontró el archivo CSV en la solicitud")
         return jsonify({"error": "No se encontró el archivo CSV en la solicitud"}), 400
     file = request.files["file"]
     if file.filename == "":
+        print("Error: No se seleccionó ningún archivo")
         return jsonify({"error": "No se seleccionó ningún archivo"}), 400
-    
+
+    print("Archivo recibido:", file.filename)
+
     try:
         # Paso 2: Leer el contenido del archivo CSV
-        # Intentar con UTF-8 primero, si falla usar Latin-1
+        # Intentar con UTF-8-SIG para eliminar el BOM automáticamente; si falla, usar Latin-1
         try:
-            content = file.stream.read().decode("utf-8")
+            content = file.stream.read().decode("utf-8-sig")
+            print("Archivo decodificado con UTF-8-SIG correctamente")
         except UnicodeDecodeError:
-            # Reiniciar el puntero del archivo y decodificar con Latin-1
             file.stream.seek(0)
             content = file.stream.read().decode("latin-1")
+            print("Archivo decodificado con Latin-1")
         
         stream = io.StringIO(content)
         reader = csv.reader(stream, delimiter=';')
         
         # Paso 3: Extraer la cabecera del CSV
         header = next(reader, None)
+        print("Cabecera del CSV:", header)
         if not header:
+            print("Error: El archivo CSV está vacío")
             return jsonify({"error": "El archivo CSV está vacío"}), 400
         
         # Paso 4: Procesar cada fila y actualizar la incidencia
         updated_count = 0
+        row_number = 1
         for row in reader:
-            if not row:  # Omitir filas vacías
+            row_number += 1
+            if not row:
+                print(f"Fila {row_number} vacía. Se omite.")
                 continue
             data = dict(zip(header, row))
+            print(f"Fila {row_number} procesada:", data)
             # Se requiere el campo "id" para identificar la incidencia a actualizar
             if "id" not in data or not data["id"]:
+                print(f"Fila {row_number} omitida: falta el campo 'id'")
                 continue
+            
+            print(f"Actualizando incidencia con id {data.get('id')}:")
+            print(f" - Elemento: {data.get('elemento')}")
+            print(f" - Instalacion: {data.get('instalacion')}")
+            print(f" - Ubicacion: {data.get('ubicacion')}")
+            print(f" - Tipo: {data.get('tipo')}")
+            print(f" - Estado: {data.get('estado')}")
+            print(f" - Fecha: {data.get('fecha')}")
+            print(f" - Observaciones: {data.get('observaciones')}")
             
             modelo.repositorio_inspector.actualizar_incidencia(
                 data.get("elemento"),
@@ -235,11 +292,14 @@ def importar_incidencias():
             )
             updated_count += 1
         
-        # Paso 5: Devolver un mensaje indicando cuántas incidencias se han actualizado
+        print("Total incidencias actualizadas:", updated_count)
         return jsonify({"mensaje": f"Se han actualizado {updated_count} incidencias correctamente."}), 200
 
     except Exception as e:
+        print("Error durante la importación múltiple de incidencias:", str(e))
         return jsonify({"error": str(e)}), 500
+
+
     
     
 #------------------------------------------------------------------------

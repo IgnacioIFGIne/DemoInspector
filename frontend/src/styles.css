@@ -2,3 +2,127 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f6f8;
+    }
+
+    #fake-login {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #f4f6f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-box img {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+
+    .login-box h2 {
+      font-weight: 500;
+      margin: 10px 0;
+    }
+
+    .login-box p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #163978;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .login-box button:hover {
+      background-color: #0f2c5b;
+    }
+
+    .error-msg {
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
+      display: none;
+    }
+
+    app-root {
+      display: none;
+    }
+    /* Estilos para los diálogos que contienen mapas */
+.custom-dialog-container .mat-mdc-dialog-container {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Asegurar que el mapa sea visible en los diálogos */
+.mapa-container {
+  height: 30vh !important;
+  min-height: 300px !important;
+  width: 100% !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background-color: #e5e7eb !important;
+  z-index: 1 !important;
+}
+
+#map {
+  height: 100% !important;
+  width: 100% !important;
+  z-index: 1 !important;
+}
+
+/* Ocultar la atribución de Leaflet */
+.leaflet-control-attribution {
+  display: none !important;
+}
+
+/* Asegurar que los controles de zoom estén visibles */
+.leaflet-control-zoom {
+  z-index: 1000 !important;
+}
+
+/* Estilos para los marcadores de Leaflet */
+.leaflet-marker-icon {
+  z-index: 1000 !important;
+}
+
+/* Asegurar que los popups de Leaflet estén visibles */
+.leaflet-popup {
+  z-index: 1001 !important;
+}

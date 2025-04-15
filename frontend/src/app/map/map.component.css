@@ -1,4 +1,22 @@
+.map-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
 #map {
-    height: 500px; /* Ajusta el tamaño del mapa según lo necesites */
-  }
-  
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  min-height: 300px; /* Altura mínima para asegurar visibilidad */
+}
+
+/* Ocultar la atribución de Leaflet y OpenStreetMap */
+.leaflet-control-attribution {
+  display: none !important;
+}
+
+/* Asegurar que los controles de zoom estén visibles */
+.leaflet-control-zoom {
+  z-index: 1000;
+}

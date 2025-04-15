@@ -8,5 +8,6 @@ export class Incidencia{
     estado: string = "";
     fecha: string = "";
     observaciones: string = "";
-
+     // Nuevos campos para datos específicos de disciplina
+    datosEspecificos?: any
 }
