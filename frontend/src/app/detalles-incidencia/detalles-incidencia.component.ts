@@ -21,6 +21,7 @@ export class DetallesIncidenciaComponent {
   id_incidencia = -1
   incidencia: Incidencia = {} as Incidencia
   fotoError = false
+  datosEspecificos: any = {}
 
   constructor(
     private servicioInspector: InspectorService,
@@ -41,6 +42,16 @@ export class DetallesIncidenciaComponent {
     this.servicioInspector.getIncidencia_id(this.id_incidencia).subscribe((incident) => {
       this.incidencia = incident
       this.fotoError = false // Resetear el error de foto al cargar una nueva incidencia
+
+      // Parsear los datos específicos del JSON
+      if (this.incidencia.observaciones) {
+        try {
+          this.datosEspecificos = JSON.parse(this.incidencia.observaciones)
+        } catch (error) {
+          console.error("Error al parsear los datos específicos:", error)
+          this.datosEspecificos = {}
+        }
+      }
     })
   }
 
@@ -79,6 +90,54 @@ export class DetallesIncidenciaComponent {
     }
   }
 
+  // Método para obtener el color de fondo según el estado
+  getEstadoBgColor(estado: string | undefined): string {
+    // Verificar si estado es undefined o null
+    if (!estado) {
+      return "#e6f7ff" // Color por defecto si no hay estado
+    }
+
+    // Convertir a minúsculas y eliminar espacios para comparación
+    const estadoNormalizado = estado.toLowerCase().replace(/\s+/g, "-")
+
+    switch (estadoNormalizado) {
+      case "iniciado":
+        return "#e6f7ff" // Azul claro
+      case "en-progreso":
+        return "#b7eb8f" // Verde claro
+      case "pausado":
+        return "#ffe7ba" // Naranja claro
+      case "parado":
+        return "#ffccc7" // Rojo claro
+      default:
+        return "#e6f7ff" // Color por defecto
+    }
+  }
+
+  // Método para obtener el color del texto según el estado
+  getEstadoColor(estado: string | undefined): string {
+    // Verificar si estado es undefined o null
+    if (!estado) {
+      return "#1890ff" // Color por defecto si no hay estado
+    }
+
+    // Convertir a minúsculas y eliminar espacios para comparación
+    const estadoNormalizado = estado.toLowerCase().replace(/\s+/g, "-")
+
+    switch (estadoNormalizado) {
+      case "iniciado":
+        return "#1890ff" // Azul
+      case "en-progreso":
+        return "#52c41a" // Verde
+      case "pausado":
+        return "#fa8c16" // Naranja
+      case "parado":
+        return "#f5222d" // Rojo
+      default:
+        return "#1890ff" // Color por defecto
+    }
+  }
+
   // Método para extraer solo el texto de observaciones del JSON
   getObservacionesTexto(): string {
     if (!this.incidencia.observaciones) {
@@ -92,6 +151,48 @@ export class DetallesIncidenciaComponent {
       // Si no es un JSON válido, devolver el texto original
       return this.incidencia.observaciones
     }
+  }
+
+  // Nuevos métodos para obtener los valores de los campos específicos
+  getTipoValor(): string {
+    if (this.datosEspecificos && this.datosEspecificos["Tipo"]) {
+      if (this.datosEspecificos["Tipo"] === "Otro" && this.datosEspecificos["TipoPersonalizado"]) {
+        return this.datosEspecificos["TipoPersonalizado"]
+      }
+      return this.datosEspecificos["Tipo"]
+    }
+    return "No especificado"
+  }
+
+  getTipoAfeccionValor(): string {
+    if (this.datosEspecificos && this.datosEspecificos["Tipo de afección"]) {
+      return this.datosEspecificos["Tipo de afección"]
+    }
+    return "No especificado"
+  }
+
+  getEstadoFuncionalValor(): string {
+    if (this.datosEspecificos && this.datosEspecificos["Estado funcional"]) {
+      return this.datosEspecificos["Estado funcional"]
+    }
+    return "No especificado"
+  }
+
+  getNivelCriticidadValor(): string {
+    if (this.datosEspecificos && this.datosEspecificos["NivelCriticidad"]) {
+      return this.datosEspecificos["NivelCriticidad"]
+    }
+    return "No especificado"
+  }
+
+  getEntidadResponsableValor(): string {
+    if (this.datosEspecificos && this.datosEspecificos["EntidadResponsable"]) {
+      if (this.datosEspecificos["EntidadResponsable"] === "Otro" && this.datosEspecificos["EntidadPersonalizada"]) {
+        return this.datosEspecificos["EntidadPersonalizada"]
+      }
+      return this.datosEspecificos["EntidadResponsable"]
+    }
+    return "No especificado"
   }
 
   editarIncidencia(incidencia: Incidencia) {

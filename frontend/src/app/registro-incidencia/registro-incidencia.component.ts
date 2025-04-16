@@ -372,52 +372,55 @@ export class RegistroIncidenciaComponent implements OnInit, AfterViewInit {
       return
     }
 
-    const video = this.videoElement.nativeElement
-    const canvas = this.canvasElement.nativeElement
+    try {
+      const video = this.videoElement.nativeElement
+      const canvas = this.canvasElement.nativeElement
 
-    // Configurar el canvas con las dimensiones del video
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
+      // Configurar el canvas con las dimensiones del video
+      canvas.width = video.videoWidth || 640
+      canvas.height = video.videoHeight || 480
 
-    // Dibujar el frame actual del video en el canvas
-    const context = canvas.getContext("2d")
-    if (context) {
-      context.drawImage(video, 0, 0, canvas.width, canvas.height)
+      // Dibujar el frame actual del video en el canvas
+      const context = canvas.getContext("2d")
+      if (context) {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height)
 
-      // Convertir el canvas a una URL de datos (base64)
-      this.capturedImage = canvas.toDataURL("image/jpeg")
+        // Convertir el canvas directamente a un Blob
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              // Crear un archivo temporal con un nombre genérico
+              // (lo renombraremos después con el ID de la incidencia)
+              this.selectedFile = new File([blob], "temp_photo.jpg", { type: "image/jpeg" })
 
-      // Convertir la URL de datos a un archivo
-      this.convertirBase64AFile(this.capturedImage)
+              // Guardar la imagen para mostrarla en la vista previa
+              this.capturedImage = URL.createObjectURL(blob)
 
-      // Cerrar la cámara
+              console.log("Foto capturada y guardada como File:", this.selectedFile)
+            } else {
+              console.error("No se pudo crear el blob de la imagen")
+            }
+          },
+          "image/jpeg",
+          0.9,
+        ) // Calidad 0.9
+
+        // Cerrar la cámara
+        this.cerrarCamara()
+      } else {
+        console.error("No se pudo obtener el contexto 2D del canvas")
+      }
+    } catch (error) {
+      console.error("Error al capturar la foto:", error)
+      Swal.fire({
+        title: "Error",
+        text: "No se pudo capturar la foto. Por favor, inténtalo de nuevo.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#8c1a20",
+      })
       this.cerrarCamara()
     }
-  }
-
-  // Método para convertir base64 a File
-  convertirBase64AFile(base64Image: string): void {
-    // Eliminar el prefijo de la URL de datos
-    const base64Data = base64Image.split(",")[1]
-    const byteCharacters = atob(base64Data)
-
-    const byteArrays = []
-
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteArrays.push(byteCharacters.charCodeAt(i))
-    }
-
-    const byteArray = new Uint8Array(byteArrays)
-    const blob = new Blob([byteArray], { type: "image/jpeg" })
-
-    // Crear un nombre de archivo con la fecha actual
-    const now = new Date()
-    const fileName = `foto_${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}_${now.getHours().toString().padStart(2, "0")}${now.getMinutes().toString().padStart(2, "0")}${now.getSeconds().toString().padStart(2, "0")}.jpg`
-
-    // Crear un objeto File a partir del Blob
-    this.selectedFile = new File([blob], fileName, { type: "image/jpeg" })
-
-    console.log("Foto capturada y convertida a File:", this.selectedFile)
   }
 
   // Método para cerrar la cámara
@@ -619,15 +622,18 @@ export class RegistroIncidenciaComponent implements OnInit, AfterViewInit {
     formData.append("fecha", this.incidencia.fecha)
     formData.append("observaciones", this.incidencia.observaciones)
 
-    if (this.selectedFile) {
-      formData.append("foto", this.selectedFile)
-    }
-
+    // Primero enviamos los datos sin la foto para obtener el ID
     this.inspectorService.registrarIncidenciaConFoto(formData).subscribe(
       (res: any) => {
-        if (res.status === "ok") {
+        if (res.status === "ok" && res.id) {
           this.incidencia.id = res.id
-          this.inciOk()
+
+          // Si hay una foto, la renombramos con el ID y la subimos
+          if (this.selectedFile) {
+            this.subirFotoConId(res.id)
+          } else {
+            this.inciOk()
+          }
         } else {
           this.showErrorAlert()
         }
@@ -645,6 +651,45 @@ export class RegistroIncidenciaComponent implements OnInit, AfterViewInit {
         } else {
           this.showErrorAlert()
         }
+      },
+    )
+  }
+
+  // Añadir el nuevo método subirFotoConId()
+  subirFotoConId(incidenciaId: number): void {
+    if (!this.selectedFile) {
+      this.inciOk()
+      return
+    }
+
+    // Crear un nuevo File con el nombre correcto (ID de la incidencia)
+    const fileExtension = this.selectedFile.name.split(".").pop() || "jpg"
+    const newFileName = `${incidenciaId}.${fileExtension}`
+    const newFile = new File([this.selectedFile], newFileName, { type: this.selectedFile.type })
+
+    console.log(`Renombrando foto de ${this.selectedFile.name} a ${newFileName}`)
+
+    const formData = new FormData()
+    formData.append("id", incidenciaId.toString())
+    formData.append("foto", newFile)
+
+    this.inspectorService.subirFoto(formData).subscribe(
+      (res) => {
+        console.log("Foto subida correctamente:", res)
+        this.inciOk()
+      },
+      (error) => {
+        console.error("Error al subir la foto:", error)
+        // Mostrar advertencia pero considerar que el registro fue exitoso
+        Swal.fire({
+          title: "Advertencia",
+          text: "La incidencia se registró correctamente, pero no se pudo subir la foto.",
+          icon: "warning",
+          confirmButtonText: "Aceptar",
+          confirmButtonColor: "#1a4b8c",
+        }).then(() => {
+          this.dialogRef.close(true)
+        })
       },
     )
   }

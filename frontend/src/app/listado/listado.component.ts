@@ -73,4 +73,13 @@ export class ListadoComponent {
       return observaciones
     }
   }
+
+  // Añadir el método handleImageError para manejar errores de carga de imágenes
+  handleImageError(event: any): void {
+    // Cuando la imagen no se puede cargar, reemplazarla con la imagen por defecto
+    event.target.src = "../../assets/images/Logo_Ineco.png"
+
+    // Opcional: añadir clase para aplicar estilos específicos a imágenes de respaldo
+    event.target.classList.add("fallback-image")
+  }
 }

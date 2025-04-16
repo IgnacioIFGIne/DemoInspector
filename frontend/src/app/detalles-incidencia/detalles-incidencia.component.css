@@ -116,8 +116,10 @@ body {
 }
 
 .card-header h2 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
+  color: #333;
+  text-transform: none; /* Asegurar que no se aplique transformación de texto */
 }
 
 .card-content {
@@ -148,14 +150,19 @@ body {
   margin-bottom: 15px;
 }
 
+/* Actualizar los estilos de tipografía para que coincidan con el registro de incidencias */
 .detail-item h3 {
   font-size: 14px;
-  color: #6b7280;
+  color: #666;
+  font-weight: 500;
   margin-bottom: 5px;
+  text-transform: none; /* Asegurar que no se aplique transformación de texto */
 }
 
 .detail-item p {
-  font-weight: 500;
+  font-weight: 400; /* Reducir el peso de la fuente para que coincida con el registro */
+  color: #333;
+  font-size: 14px;
 }
 
 /* Estado */
@@ -170,19 +177,23 @@ body {
   border: 1px solid #22c55e;
 }
 
-/* Cajas */
-.observation-box,
-.photos-box {
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
+/* Estilo para la caja de observaciones */
+.observation-box {
+  background-color: #fff;
+  border: 1px solid #ddd;
   border-radius: 6px;
-  padding: 15px;
+  padding: 12px;
+  color: #333;
+  font-size: 14px;
 }
 
+/* Estilo para la caja de fotos */
 .photos-box {
-  text-align: center;
-  color: #9ca3af;
-  padding: 30px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 20px;
+  color: #666;
 }
 .photos-box {
   text-align: center;
@@ -581,44 +592,44 @@ body {
 .estado-iniciado {
   display: inline-block;
   background-color: #e6f7ff; /* Azul claro */
-  color: #1890ff;
+  color: #1890ff; /* Azul */
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: bold;
   border: 1px solid #91d5ff;
 }
 
 .estado-en-progreso {
   display: inline-block;
   background-color: #b7eb8f; /* Verde pistacho */
-  color: #52c41a;
+  color: #275f0b; /* Verde */
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: bold;
   border: 1px solid #95de64;
 }
 
 .estado-pausado {
   display: inline-block;
-  background-color: #ffe7ba; /* Naranja */
-  color: #fa8c16;
+  background-color: #ffe7ba; /* Naranja claro */
+  color: #fa8c16; /* Naranja */
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: bold;
   border: 1px solid #ffd591;
 }
 
 .estado-parado {
   display: inline-block;
-  background-color: #ffccc7; /* Rojo */
-  color: #f5222d;
+  background-color: #ffccc7; /* Rojo claro */
+  color: #f5222d; /* Rojo */
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: bold;
   border: 1px solid #ffa39e;
 }
 
@@ -633,4 +644,14 @@ body {
 #map {
   width: 100%;
   height: 100%;
+}
+
+/* Estilo exacto para el badge de estado */
+.estado-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: normal;
+  text-align: center;
 }

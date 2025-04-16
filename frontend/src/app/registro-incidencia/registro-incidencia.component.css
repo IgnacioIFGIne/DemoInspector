@@ -20,28 +20,28 @@
   overflow-y: auto;
 }
 
-/* Mapa - Ajustes específicos para asegurar que se muestre */
-.mapa-container {
+/* Eliminamos la sección del mapa */
+/* .mapa-container {
   height: 30vh;
   width: 100%;
   position: relative;
-  overflow: visible; /* Cambiado de hidden a visible */
+  overflow: visible;
   background-color: #e5e7eb;
-  min-height: 300px; /* Altura mínima para asegurar visibilidad */
-  margin-bottom: 16px; /* Añadir espacio debajo del mapa */
-  border: 1px solid #ccc; /* Añadir borde para visualizar el contenedor */
-}
+  min-height: 300px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+} */
 
 /* Estilos específicos para el mapa */
-#map {
+/* #map {
   height: 100% !important;
   width: 100% !important;
   z-index: 1;
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
-  background-color: #f0f0f0 !important; /* Color de fondo para visualizar el área */
-}
+  background-color: #f0f0f0 !important;
+} */
 
 /* Asegurar que los controles de Leaflet sean visibles */
 .leaflet-control-container {
@@ -52,7 +52,7 @@
   z-index: 1000 !important;
 }
 
-/* Contenedor de tarjetas */
+/* Contenedor de tarjetas - Ajustado para pegarse a la parte superior */
 .tarjetas-container {
   display: flex;
   flex-direction: column;
@@ -60,6 +60,7 @@
   gap: 16px;
   flex: 1;
   overflow-y: visible;
+  margin-top: 0; /* Aseguramos que no haya margen superior */
 }
 
 @media (min-width: 992px) {

@@ -5,14 +5,11 @@
       <img *ngIf="esMosaico" src="../../assets/images/Logo_Ineco.png" alt="Imagen de la incidencia" class="incident-image">
       <!-- <img *ngIf="esMosaico" src="backend/static/imagesIncidencias/{{incidencia.id}}.jpg" alt="Imagen de la incidencia" class="incident-image"> -->
       
-      <!-- Título con estado a la derecha en modo mosaico -->
-      <div class="title-container" *ngIf="esMosaico">
+      <!-- Título con estado a la derecha (tanto en modo mosaico como en modo lista) -->
+      <div class="title-container">
         <h3>{{incidencia.instalacion}}</h3>
         <span class="status-badge-inline" [ngClass]="getEstadoClass(incidencia.estado)">{{incidencia.estado}}</span>
       </div>
-      
-      <!-- Título normal en modo lista -->
-      <h3 *ngIf="!esMosaico">{{incidencia.instalacion}}</h3>
       
       <!-- Datos de la incidencia -->
       <p class="description text-left"><span class="bold">Elemento:</span> {{incidencia.elemento}}</p>
@@ -23,17 +20,7 @@
       
       <p class="date text-left"><span class="bold">Fecha:</span> {{incidencia.fecha}}</p>
       
-      <!-- Estado en modo mosaico (ahora se muestra junto al título) -->
-      <div *ngIf="!esMosaico" [ngClass]="{'status-inline': esMosaico, 'status-right': !esMosaico}">
-        <span class="status-badge" [ngClass]="getEstadoClass(incidencia.estado)">{{incidencia.estado}}</span>
-      </div>
-      
       <button class="btn-details" (click)="verDetalles(incidencia)">VER DETALLES</button>
-    </div>
-    
-    <!-- Estado en modo lista (visible solo en modo lista) -->
-    <div class="incident-status" *ngIf="!esMosaico">
-      <span class="status-badge" [ngClass]="getEstadoClass(incidencia.estado)">{{incidencia.estado}}</span>
     </div>
   </div>
 </div>

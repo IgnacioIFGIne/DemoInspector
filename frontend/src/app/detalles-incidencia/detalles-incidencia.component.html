@@ -18,22 +18,30 @@
   <!-- Detalles de la incidencia -->
   <div class="card">
     <div class="card-header">
-      <h2>Detalles de la Incidencia</h2>
+      <h2>Detalles de la incidencia</h2>
     </div>
     <div class="card-content">
       <div class="details-grid">
         <div class="details-column">
           <div class="detail-item">
-            <div class="detail-item">
-              <h3>Instalación</h3>
-              <p>{{incidencia.instalacion}}</p>
-            </div>
+            <h3>Código de la incidencia</h3>
+            <p><strong>{{incidencia.instalacion}}</strong></p>
+          </div>
+          <div class="detail-item">
             <h3>Elemento</h3>
             <p>{{incidencia.elemento}}</p>
           </div>
           <div class="detail-item">
             <h3>Ubicación</h3>
             <p>{{incidencia.ubicacion}}</p>
+          </div>
+          <div class="detail-item">
+            <h3>Tipo</h3>
+            <p>{{getTipoValor()}}</p>
+          </div>
+          <div class="detail-item">
+            <h3>Tipo de afección</h3>
+            <p>{{getTipoAfeccionValor()}}</p>
           </div>
         </div>
         <div class="details-column">
@@ -43,7 +51,21 @@
           </div>
           <div class="detail-item">
             <h3>Estado</h3>
-            <p [ngClass]="getEstadoClass(incidencia.estado)">{{incidencia.estado}}</p>
+            <div class="estado-badge" [style.backgroundColor]="getEstadoBgColor(incidencia.estado)" [style.color]="getEstadoColor(incidencia.estado)">
+              {{incidencia.estado}}
+            </div>
+          </div>
+          <div class="detail-item">
+            <h3>Estado funcional</h3>
+            <p>{{getEstadoFuncionalValor()}}</p>
+          </div>
+          <div class="detail-item">
+            <h3>Nivel de criticidad</h3>
+            <p>{{getNivelCriticidadValor()}}</p>
+          </div>
+          <div class="detail-item">
+            <h3>Entidad responsable</h3>
+            <p>{{getEntidadResponsableValor()}}</p>
           </div>
           <div class="detail-item">
             <h3>Fecha</h3>

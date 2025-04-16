@@ -1,9 +1,9 @@
 <div class="registro-container">
-  <!-- Mapa en la parte superior -->
-  <div class="mapa-container">
+  <!-- Eliminamos la sección del mapa -->
+  <!-- <div class="mapa-container">
     <div id="map"></div>
-  </div>
- 
+  </div> -->
+
   <!-- Contenedor principal de las tres tarjetas -->
   <div class="tarjetas-container">
     <!-- Tarjeta 1: Datos generales -->
@@ -156,7 +156,192 @@
         <textarea [(ngModel)]="incidencia.observaciones" 
                   placeholder="Añade detalles adicionales..." 
                   class="campo-textarea"></textarea>
+      </div><div class="registro-container">
+        <!-- Eliminamos la sección del mapa -->
+        <!-- <div class="mapa-container">
+          <div id="map"></div>
+        </div> -->
+      
+        <!-- Contenedor principal de las tres tarjetas -->
+        <div class="tarjetas-container">
+          <!-- Tarjeta 1: Datos generales -->
+          <div class="tarjeta datos-generales">
+            <h2>Datos generales de la incidencia</h2>
+            
+            <div class="campo-grupo">
+              <label>Disciplina</label>
+              <select [(ngModel)]="incidencia.tipo" (change)="onDisciplinaChange()" class="campo-input">
+                <option value="" disabled selected>Seleccionar disciplina</option>
+                <option *ngFor="let disciplina of disciplinas" [value]="disciplina">{{disciplina}}</option>
+              </select>
+            </div>
+            
+            <div class="campo-grupo">
+              <label>Código de la incidencia</label>
+              <div class="codigo-incidencia">{{incidencia.instalacion}}</div>
+            </div>
+            
+            <div class="campo-grupo">
+              <label>Estado</label>
+              <select [(ngModel)]="incidencia.estado" class="campo-input">
+                <option value="" disabled selected>Seleccionar estado</option>
+                <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
+              </select>
+            </div>
+            
+            <div class="campo-grupo">
+              <label>Fecha creación</label>
+              <div class="fecha-creacion">{{incidencia.fecha}}</div>
+            </div>
+          </div>
+          
+          <!-- Tarjeta 2: Datos específicos de la disciplina -->
+          <div class="tarjeta datos-especificos">
+            <h2>Datos específicos de la disciplina</h2>
+            
+            <div *ngIf="incidencia.tipo" class="campos-dinamicos">
+              <div *ngFor="let campo of camposDisciplinaActual" class="campo-grupo">
+                <label>{{campo.nombre}}</label>
+                
+                <input *ngIf="campo.tipo === 'text'" 
+                       type="text" 
+                       [(ngModel)]="campo.valor" 
+                       class="campo-input">
+                        
+                <select *ngIf="campo.tipo === 'select'" 
+                        [(ngModel)]="campo.valor" 
+                        class="campo-input">
+                  <option value="" disabled selected>Seleccionar {{campo.nombre.toLowerCase()}}</option>
+                  <option *ngFor="let opcion of campo.opciones" [value]="opcion">{{opcion}}</option>
+                </select>
+                
+                <!-- Campo adicional para "Otro" tipo -->
+                <input *ngIf="campo.nombre === 'Tipo' && campo.valor === 'Otro'" 
+                       type="text" 
+                       [(ngModel)]="tipoPersonalizado" 
+                       placeholder="Especifique el tipo" 
+                       class="campo-input campo-otro"
+                       style="margin-top: 8px;">
+              </div>
+              
+              <!-- Nuevo campo Nivel de Criticidad -->
+              <div class="campo-grupo">
+                <label>Nivel de criticidad</label>
+                <select [(ngModel)]="nivelCriticidad" class="campo-input">
+                  <option value="" disabled selected>Seleccionar nivel de criticidad</option>
+                  <option value="Bajo">Bajo</option>
+                  <option value="Medio">Medio</option>
+                  <option value="Alto">Alto</option>
+                </select>
+              </div>
+            </div>
+            
+            <div *ngIf="!incidencia.tipo" class="sin-disciplina">
+              <p>Seleccione una disciplina para ver los campos específicos</p>
+            </div>
+            
+            <!-- Sección de fotos -->
+            <div class="campo-grupo fotos-seccion">
+              <label>Fotos</label>
+              
+              <!-- Área para subir fotos -->
+              <div class="upload-area" (click)="fileInput.click()">
+                <div class="camera-icon">
+                  <i class="fas fa-images"></i>
+                </div>
+                <p>Seleccionar foto</p>
+                <input #fileInput type="file" class="file-input" accept="image/*" (change)="onFileSelected($event)">
+              </div>
+              
+              <!-- Botón para tomar foto (solo en móviles) -->
+              <div *ngIf="isMobile" class="upload-area camera-option" (click)="activarCamara()">
+                <div class="camera-icon">
+                  <i class="fas fa-camera"></i>
+                </div>
+                <p>Tomar foto</p>
+              </div>
+              
+              <!-- Vista previa de la foto seleccionada -->
+              <div *ngIf="selectedFile" class="foto-seleccionada">
+                <span>{{selectedFile.name}}</span>
+                <button (click)="selectedFile = null" class="btn-eliminar-foto">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              
+              <!-- Vista previa de la foto capturada -->
+              <div *ngIf="capturedImage" class="foto-capturada">
+                <img [src]="capturedImage" alt="Foto capturada" class="preview-image">
+                <button (click)="eliminarFotoCapturada()" class="btn-eliminar-foto">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Tarjeta 3: Observaciones -->
+          <div class="tarjeta observaciones">
+            <h2>Datos adicionales</h2>
+            
+            <div class="campo-grupo">
+              <label>Ubicación</label>
+              <input type="text" [(ngModel)]="incidencia.ubicacion" placeholder="Coordenadas" class="campo-input" readonly>
+            </div>
+            
+            <!-- Nuevo campo Entidad Responsable -->
+            <div class="campo-grupo">
+              <label>Entidad responsable</label>
+              <select [(ngModel)]="entidadResponsable" class="campo-input">
+                <option value="" disabled selected>Seleccionar entidad responsable</option>
+                <option value="Iberdrola">Iberdrola</option>
+                <option value="Canal de Isabel II">Canal de Isabel II</option>
+                <option value="Adif">Adif</option>
+                <option value="Movistar">Movistar</option>
+                <option value="Otro">Otro</option>
+              </select>
+              
+              <!-- Campo adicional para "Otra" entidad -->
+              <input *ngIf="entidadResponsable === 'Otro'" 
+                     type="text" 
+                     [(ngModel)]="entidadPersonalizada" 
+                     placeholder="Especifique la entidad" 
+                     class="campo-input"
+                     style="margin-top: 8px;">
+            </div>
+            
+            <div class="campo-grupo">
+              <label>Observaciones</label>
+              <textarea [(ngModel)]="incidencia.observaciones" 
+                        placeholder="Añade detalles adicionales..." 
+                        class="campo-textarea"></textarea>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Botones de acción -->
+        <div class="acciones">
+          <button class="btn-guardar" (click)="registrarIncidencia()">Guardar registro</button>
+          <button class="btn-cancelar" (click)="close()">Cancelar</button>
+        </div>
       </div>
+      
+      <!-- Modal para la cámara -->
+      <div *ngIf="showCamera" class="camera-modal">
+        <div class="camera-container">
+          <video #videoElement autoplay playsinline class="camera-preview"></video>
+          <canvas #canvasElement class="camera-canvas"></canvas>
+          
+          <div class="camera-controls">
+            <button class="btn-capture" (click)="capturarFoto()">
+              <i class="fas fa-circle"></i>
+            </button>
+            <button class="btn-close-camera" (click)="cerrarCamara()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div>
   
@@ -165,10 +350,10 @@
     <button class="btn-guardar" (click)="registrarIncidencia()">Guardar registro</button>
     <button class="btn-cancelar" (click)="close()">Cancelar</button>
   </div>
- </div>
- 
- <!-- Modal para la cámara -->
- <div *ngIf="showCamera" class="camera-modal">
+</div>
+
+<!-- Modal para la cámara -->
+<div *ngIf="showCamera" class="camera-modal">
   <div class="camera-container">
     <video #videoElement autoplay playsinline class="camera-preview"></video>
     <canvas #canvasElement class="camera-canvas"></canvas>
@@ -182,5 +367,4 @@
       </button>
     </div>
   </div>
- </div>
- 
+</div>

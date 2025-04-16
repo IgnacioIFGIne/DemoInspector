@@ -59,31 +59,43 @@
   font-size: 16px;
   margin-bottom: 4px;
   color: #333;
+  display: inline-block; /* Cambiado a inline-block para mejor alineación */
+  vertical-align: middle; /* Alineación vertical al medio */
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Contenedor para título y estado en modo mosaico */
 .title-container {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 8px;
+  align-items: center; /* Esto asegura que los elementos estén alineados verticalmente */
+  margin-bottom: 12px; /* Aumentado para dar más espacio */
   width: 100%;
 }
 
 .title-container h3 {
-  margin-bottom: 0;
+  margin: 0;
   margin-right: 8px;
-  font-size: 14px;
-  text-align: left;
+  font-size: 16px;
+  line-height: 1; /* Ajustado para mejor alineación */
+  padding: 0; /* Eliminar cualquier padding */
 }
 
+/* Estilos para el badge de estado inline */
 .status-badge-inline {
-  font-size: 11px;
-  padding: 2px 6px;
+  font-size: 12px;
+  padding: 4px 8px; /* Ajustado el padding vertical */
   border-radius: 4px;
   font-weight: 500;
   white-space: nowrap;
-  margin-left: 5px;
+  margin-left: 8px;
+  display: inline-flex; /* Cambiamos a inline-flex para mejor alineación */
+  align-items: center; /* Centramos verticalmente el contenido */
+  justify-content: center; /* Centramos horizontalmente el contenido */
+  height: 22px; /* Altura fija para asegurar alineación */
+  vertical-align: middle; /* Alineación vertical al medio */
+  position: relative; /* Añadido para poder usar top si es necesario */
+  top: 0px; /* Ajuste fino para alinear perfectamente */
 }
 
 .address {
@@ -133,12 +145,9 @@
   display: none; /* No se muestra en modo lista, ya que se usa incident-status */
 }
 
+/* Ocultar el contenedor de estado original en ambos modos */
 .incident-status {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-between;
-  min-width: 100px;
+  display: none;
 }
 
 .status-badge {
@@ -192,6 +201,7 @@
   padding: 8px 16px;
   border-radius: 6px;
   font-weight: 500;
+  margin-top: 8px; /* Añadido margen superior */
 }
 .btn-details:hover {
   color: white;
@@ -230,15 +240,15 @@
 
 .incidencias-lista.mosaico .incident-content h3 {
   font-size: 14px; /* Reducir tamaño de texto para mejor ajuste */
-  text-align: center;
+  text-align: left;
 }
 
 /* Ajustes para el contenedor de título en modo mosaico */
 .incidencias-lista.mosaico .title-container {
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: center; /* Aseguramos alineación vertical */
   margin-bottom: 8px;
 }
 
@@ -246,6 +256,7 @@
   margin: 0;
   text-align: left;
   font-size: 14px;
+  line-height: 1; /* Ajustado para mejor alineación */
 }
 
 .incidencias-lista.mosaico .description,

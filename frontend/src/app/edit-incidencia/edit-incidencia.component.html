@@ -1,9 +1,9 @@
 <div class="registro-container">
-  <!-- Mapa en la parte superior -->
-  <div class="mapa-container">
+  <!-- Eliminamos la sección del mapa -->
+  <!-- <div class="mapa-container">
     <div id="map"></div>
-  </div>
-  
+  </div> -->
+
   <!-- Contenedor principal de las tres tarjetas -->
   <div class="tarjetas-container">
     <!-- Tarjeta 1: Datos generales -->
@@ -65,7 +65,7 @@
         
         <!-- Nuevo campo Nivel de Criticidad -->
         <div class="campo-grupo">
-          <label>Nivel de Criticidad</label>
+          <label>Nivel de criticidad</label>
           <select [(ngModel)]="nivelCriticidad" class="campo-input">
             <option value="" disabled selected>Seleccionar nivel de criticidad</option>
             <option value="Bajo">Bajo</option>
@@ -135,7 +135,7 @@
       
       <!-- Nuevo campo Entidad Responsable -->
       <div class="campo-grupo">
-        <label>Entidad Responsable</label>
+        <label>Entidad responsable</label>
         <select [(ngModel)]="entidadResponsable" class="campo-input">
           <option value="" disabled selected>Seleccionar entidad responsable</option>
           <option value="Iberdrola">Iberdrola</option>
@@ -162,16 +162,16 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Botones de acción -->
   <div class="acciones">
     <button class="btn-guardar" (click)="confirmarEdicion()">Guardar cambios</button>
     <button class="btn-cancelar" (click)="close()">Cancelar</button>
   </div>
-  </div>
-  
-  <!-- Modal para la cámara -->
-  <div *ngIf="showCamera" class="camera-modal">
+</div>
+
+<!-- Modal para la cámara -->
+<div *ngIf="showCamera" class="camera-modal">
   <div class="camera-container">
     <video #videoElement autoplay playsinline class="camera-preview"></video>
     <canvas #canvasElement class="camera-canvas"></canvas>
@@ -185,5 +185,4 @@
       </button>
     </div>
   </div>
-  </div>
-  
+</div>
