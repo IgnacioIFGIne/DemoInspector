@@ -103,6 +103,19 @@ main {
   font-size: 14px; /* Reducir tamaño de iconos */
 }
 
+/* Media query para ocultar los botones de importar y exportar en dispositivos móviles */
+@media (max-width: 767px) {
+  .btn-importar,
+  .btn-exportar {
+    display: none;
+  }
+
+  /* Ajustar el espacio entre el título y los botones cuando los botones están ocultos */
+  .left-group {
+    gap: 10px;
+  }
+}
+
 /* Incidents list */
 .incidents-list {
   flex: 1;

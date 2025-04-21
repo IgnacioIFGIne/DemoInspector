@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding-bottom: 80px; /* Espacio para el footer en todos los dispositivos */
 }
 
 /* Estilo para el formato mosaico - responsive */
@@ -14,6 +15,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2 columnas por defecto (móvil) */
   gap: 16px;
+  padding-bottom: 80px; /* Espacio para el footer en todos los dispositivos */
 }
 
 /* Media query para tablets */
@@ -27,6 +29,14 @@
 @media (min-width: 1200px) {
   .incidencias-lista.mosaico {
     grid-template-columns: repeat(7, 1fr); /* 7 columnas en escritorio */
+  }
+}
+
+/* Añadir padding inferior adicional solo en dispositivos móviles */
+@media (max-width: 767px) {
+  .incidencias-lista,
+  .incidencias-lista.mosaico {
+    padding-bottom: 110px; /* Aumentado para dar más espacio al footer en móviles (ajustado para 90px) */
   }
 }
 

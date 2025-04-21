@@ -334,6 +334,15 @@ select.campo-input {
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  /* Añadir padding inferior para evitar que los botones queden ocultos por la barra de navegación */
+  padding-bottom: calc(16px + 70px); /* Aumentado a 70px para todos los navegadores */
+}
+
+/* Soporte específico para dispositivos iOS y Chrome */
+@supports (-webkit-touch-callout: none) or (-webkit-appearance: none) {
+  .acciones {
+    padding-bottom: calc(16px + 80px); /* Aumentado a 80px para Safari y Chrome */
+  }
 }
 
 .btn-guardar {

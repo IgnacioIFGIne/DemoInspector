@@ -1,27 +1,52 @@
-        /* Bottom Navigation */
-        .bottom-nav {
-            display: flex;
-            justify-content: space-around;
-            padding-top: 8px;
-            border-top: 1px solid #e5e7eb;
-            margin-top: 8px;
-        }
+/* Bottom Navigation */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 8px;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 8px;
+  background-color: white;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding-bottom: 8px; /* Añadir padding inferior para mejor apariencia */
+  align-items: center; /* Asegurar que todos los elementos estén alineados verticalmente */
+}
 
-        .nav-button {
-            padding: 8px;
-            color: #6b7280;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
+.nav-button {
+  padding: 8px;
+  color: #6b7280;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
 
-        .add-button {
-            padding: 8px;
-            background-color: #2563eb;
-            color: white;
-            border-radius: 9999px;
-            border: none;
-            margin-top: -24px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-        }
+.add-button {
+  width: 36px; /* Tamaño fijo para el botón */
+  height: 36px; /* Tamaño fijo para el botón */
+  background-color: #2563eb;
+  color: white;
+  border-radius: 50%; /* Hacer el botón completamente redondo */
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  margin: 0; /* Eliminar cualquier margen que pueda hacer que sobresalga */
+  padding: 0; /* Eliminar padding para controlar mejor el tamaño */
+}
+
+.add-button i {
+  font-size: 16px; /* Ajustar el tamaño del icono */
+}
+
+/* Ajuste específico para dispositivos móviles */
+@media (max-width: 767px) {
+  .bottom-nav {
+    bottom: 110px; /* Cambiado de 80px a 90px para subir más la barra en móviles */
+  }
+}

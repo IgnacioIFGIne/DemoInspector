@@ -231,6 +231,15 @@ body {
   justify-content: flex-end;
   gap: 10px;
   padding: 0 20px 20px;
+  /* Añadir padding inferior para evitar que los botones queden ocultos por la barra de navegación */
+  padding-bottom: calc(20px + 70px); /* Aumentado a 70px para todos los navegadores */
+}
+
+/* Soporte específico para dispositivos iOS y Chrome */
+@supports (-webkit-touch-callout: none) or (-webkit-appearance: none) {
+  .actions {
+    padding-bottom: calc(20px + 80px); /* Aumentado a 80px para Safari y Chrome */
+  }
 }
 
 .btn-outline {
@@ -603,7 +612,7 @@ body {
 .estado-en-progreso {
   display: inline-block;
   background-color: #b7eb8f; /* Verde pistacho */
-  color: #275f0b; /* Verde */
+  color: #52c41a; /* Verde */
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 14px;

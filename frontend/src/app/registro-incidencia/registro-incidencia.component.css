@@ -134,6 +134,17 @@
   width: 100%;
 }
 
+/* Campo de solo lectura */
+.campo-readonly {
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #666;
+  background-color: #f9f9f9;
+  width: 100%;
+}
+
 select.campo-input {
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -141,18 +152,6 @@ select.campo-input {
   background-position: right 12px center;
   background-size: 16px;
   padding-right: 40px;
-}
-
-.codigo-incidencia,
-.fecha-creacion {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #333;
-  background-color: #f9f9f9;
-  font-weight: 500;
-  width: 100%;
 }
 
 /* Sección de fotos */
@@ -281,6 +280,32 @@ select.campo-input {
   justify-content: center;
 }
 
+/* Foto existente */
+.foto-existente {
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.foto-existente img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.foto-existente p {
+  padding: 10px;
+  text-align: center;
+  color: #666;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
 /* Mensaje cuando no hay disciplina seleccionada */
 .sin-disciplina {
   display: flex;
@@ -309,6 +334,15 @@ select.campo-input {
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  /* Añadir padding inferior para evitar que los botones queden ocultos por la barra de navegación */
+  padding-bottom: calc(16px + 70px); /* Aumentado a 70px para todos los navegadores */
+}
+
+/* Soporte específico para dispositivos iOS y Chrome */
+@supports (-webkit-touch-callout: none) or (-webkit-appearance: none) {
+  .acciones {
+    padding-bottom: calc(16px + 80px); /* Aumentado a 80px para Safari y Chrome */
+  }
 }
 
 .btn-guardar {
@@ -465,4 +499,27 @@ select.campo-input {
 .btn-close-camera i {
   font-size: 24px;
   color: white;
+}
+
+/* Código de incidencia */
+.codigo-incidencia {
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  background-color: #f9f9f9;
+  font-weight: 600;
+  width: 100%;
+}
+
+/* Fecha de creación */
+.fecha-creacion {
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  background-color: #f9f9f9;
+  width: 100%;
 }
